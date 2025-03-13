@@ -6,7 +6,7 @@ import {
   DialogFooter,
 } from "../dialog";
 import { Button } from "../button";
-import type { Contact } from "@/lib/data"; //gotta make this still
+import type { Contact } from "@/lib/types"; 
 import { Linkedin, Instagram, X } from "lucide-react";
 
 interface ViewContactDialogProps {
@@ -79,7 +79,7 @@ export function ViewContactDialog({
                   rel="noopener noreferrer"
                   className="flex items-center gap-1 text-sm"
                 >
-                  <Twitter className="h-4 w-4" />X
+                  <X className="h-4 w-4" />X
                 </a>
               )}
             </div>
