@@ -22,19 +22,19 @@ export function useContacts() {
     data: contactsData,
     error: contactsError,
     isLoading: isContactsLoading,
-  } = useSWR('${API_BASE_URL}/view', fetcher);
+  } = useSWR(`${API_BASE_URL}/view`, fetcher);
 
   const {
     data: orgsData,
     error: orgsError,
     isLoading: isOrgsLoading,
-  } = useSWR('${API_BASE_URL}/get_organizations', fetcher);
+  } = useSWR(`${API_BASE_URL}/get_organizations`, fetcher);
 
   const {
     data: typesData,
     error: typesError,
     isLoading: isTypesLoading,
-  } = useSWR('${API_BASE_URL}/get_organization_types', fetcher);
+  } = useSWR(`${API_BASE_URL}/get_organization_types`, fetcher);
 
 // Transform backend data format to match frontend expected format
 const contacts = contactsData ? transformContacts(contactsData) : [];
@@ -113,7 +113,7 @@ const organizationTypes = typesData || [];
     try {
       await api.createOrganization(name);
       // Revalidate the organizations cache
-      mutate('${API_BASE_URL}/get_organizations');
+      mutate(`${API_BASE_URL}/get_organizations`);
       return true;
     } catch (error) {
       console.error("Failed to add organization:", error);
@@ -126,7 +126,7 @@ const organizationTypes = typesData || [];
     try {
       await api.deleteOrganization(id);
       // Revalidate the organizations cache
-      mutate('${API_BASE_URL}/get_organizations');
+      mutate(`${API_BASE_URL}/get_organizations`);
       return true;
     } catch (error) {
       console.error("Failed to remove organization:", error);
@@ -139,7 +139,7 @@ const organizationTypes = typesData || [];
     try {
       await api.createOrganizationType(name);
       // Revalidate the organization types cache
-      mutate('${API_BASE_URL}/get_organization_types');
+      mutate(`${API_BASE_URL}/get_organization_types`);
       return true;
     } catch (error) {
       console.error("Failed to add organization type:", error);
@@ -152,7 +152,7 @@ const organizationTypes = typesData || [];
     try {
       await api.deleteOrganizationType(id);
       // Revalidate the organization types cache
-      mutate('${API_BASE_URL}/get_organization_types');
+      mutate(`${API_BASE_URL}/get_organization_types`);
       return true;
     } catch (error) {
       console.error("Failed to remove organization type:", error);
