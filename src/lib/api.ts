@@ -1,21 +1,21 @@
 // API client for interacting with the backend
 import type { Contact } from "./types";
 
-// use envirionment variable with fallback
+// Use environment variable with fallback
 const API_BASE_URL = import.meta.env.VITE_API_URL || "";
 
-// TO handle API errors
+// To handle API errors
 const handleResponse = async (response: Response) => {
   if (!response.ok) {
     const error = await response.text();
-    throw new Error(error || 'Error: ${response.status}'); 
+    throw new Error(error || `Error: ${response.status}`); 
   }
-  return response.json()
+  return response.json();
 };
 
 // Contacts API
 export async function fetchContacts() {
-  const response = await fetch(`${API_BASE_URL }/view`);
+  const response = await fetch(`${API_BASE_URL}/view`);
   return handleResponse(response);
 }
 
@@ -39,7 +39,7 @@ export async function createContact(contact: Omit<Contact, "id">) {
   const response = await fetch(`${API_BASE_URL}/insert`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/jason",
+      "Content-Type": "application/json", 
     },
     body: JSON.stringify(transformedContact),
   });
@@ -61,7 +61,7 @@ export async function updateContact(id: string, contact: Omit<Contact, "id">) {
   const response = await fetch(`${API_BASE_URL}/update/${id}`, {
     method: "PUT",
     headers: {
-      "Content-type": "application/json",
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(transformedContact),
   });
@@ -77,12 +77,12 @@ export async function deleteContact(id: string) {
 
 // Organizations API
 export async function fetchOrganizations() {
-  const response = await fetch(`${ API_BASE_URL }/organizations`);
+  const response = await fetch(`${API_BASE_URL}/get_organizations`);
   return handleResponse(response);
 }
 
 export async function createOrganization(name: string) {
-  const response = await fetch(`${API_BASE_URL }/add_organizations`, {
+  const response = await fetch(`${API_BASE_URL}/add_organization`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -93,7 +93,7 @@ export async function createOrganization(name: string) {
 }
 
 export async function deleteOrganization(id: string) {
-  const response = await fetch(`${API_BASE_URL }/delete_organization/${id}`, {
+  const response = await fetch(`${API_BASE_URL}/delete_organization/${id}`, {
     method: "DELETE",
   });
   return handleResponse(response);
@@ -101,12 +101,12 @@ export async function deleteOrganization(id: string) {
 
 // Organization Types API
 export async function fetchOrganizationTypes() {
-  const response = await fetch(`${API_BASE_URL }/get_organization_types`);
+  const response = await fetch(`${API_BASE_URL}/get_organization_types`);
   return handleResponse(response);
 }
 
 export async function createOrganizationType(name: string) {
-  const response = await fetch(`${API_BASE_URL}/add_organization_types`, {
+  const response = await fetch(`${API_BASE_URL}/add_organization_type`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -117,7 +117,7 @@ export async function createOrganizationType(name: string) {
 }
 
 export async function deleteOrganizationType(id: string) {
-  const response = await fetch(`${API_BASE_URL }/delete_organization_types/${id}`, {
+  const response = await fetch(`${API_BASE_URL}/delete_organization_type/${id}`, {
     method: "DELETE",
   });
   return handleResponse(response);
