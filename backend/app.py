@@ -9,7 +9,7 @@ from routes import init_routes
 load_dotenv()
 
 # get database URL from environment with fallback
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://username:Password@contacts-db.c3we4miwyfva.us-east-1.rds.amazonaws.com/contacts")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:777KnowledgeYearly!@contacts-db.c3we4miwyfva.us-east-1.rds.amazonaws.com/contacts")
 DEBUG = os.getenv("FLASK_ENV") == "development"
 PORT = int(os.getenv("PORT", 5000))
 #initialize flask app lesgooo
@@ -17,11 +17,12 @@ app = Flask(__name__)
 
 #configure CORS to allow requests from the frontend
 if DEBUG:
-    CORS(app, resources={r"/*": {"origins": "*"}}) #replace * with frontend domain later
+    CORS(app, resources={r"/*": {"origins": "*"}}) # in development, allow all origins for testing
 else:
     CORS(app, resources={r"/*": {"origins": [
+        "http://localhost:5173", # local dev server
         "" #S3 website URL
-        "" #cloudfront distribution domain
+        # "" #cloudfront distribution domain
     ]}})
 # configure database
 app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
