@@ -21,7 +21,7 @@ if DEBUG:
 else:
     CORS(app, resources={r"/*": {"origins": [
         "http://localhost:5173", # local dev server
-        "http://iijs-directory-frontend.s3-website-us-east-1.amazonaws.com" #S3 website URL
+        "http://iijs-directory-frontend.s3-website-us-east-1.amazonaws.com", #S3 website URL
         "https://d26crobm8snmzc.cloudfront.net" #cloudfront distribution domain
     ]}})
 # configure database
