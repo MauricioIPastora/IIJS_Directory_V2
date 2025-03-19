@@ -3,6 +3,7 @@ import type { Contact } from "./types";
 
 // Use environment variable with fallback
 const API_BASE_URL = import.meta.env.VITE_API_URL || "";
+console.log(`API_BASE_URL: ${API_BASE_URL}`); // Debugging line to check the API URL
 
 // To handle API errors
 const handleResponse = async (response: Response) => {
