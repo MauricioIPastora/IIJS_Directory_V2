@@ -24,7 +24,7 @@ Export to Excel
 Deployment
 The application is configured for deployment with GitHub Actions:
 
-Frontend deploys to AWS S3
+Frontend deploys to AWS S3,
 Backend deploys to EC2
 
 See the workflow files in .github/workflows/ for details.
