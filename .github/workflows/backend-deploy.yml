@@ -5,11 +5,6 @@ on:
     branches: [ main ]
     paths:
       - 'backend/**'
-      - 'app.py'
-      - 'models.py'
-      - 'routes.py'
-      - 'config.py'
-      - 'requirements.txt'
       - '.github/workflows/backend-deploy.yml'
 
 jobs:
