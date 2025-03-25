@@ -25,7 +25,7 @@ else:
     ]}})
 # configure database
 app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
-app.config["SQLALCHEMY_TRACK_MODIFICATION"] = False
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # initialize database
 db.init_app(app)
@@ -41,4 +41,3 @@ init_routes(app)
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=PORT, debug=DEBUG)
 
-#this better fucking work
