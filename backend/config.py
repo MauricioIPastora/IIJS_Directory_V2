@@ -7,7 +7,7 @@ from routes import init_routes
 app = Flask(__name__)
 CORS(app)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://mauriciop:777KnowledgeRevealed!@contacts-db.c3we4miwyfva.us-east-1.rds.amazonaws.com/contacts"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:777KnowledgeYearly!@contacts-db.c3we4miwyfva.us-east-1.rds.amazonaws.com/contacts"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
