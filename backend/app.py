@@ -23,8 +23,8 @@ else:
         "http://localhost:5173", # local dev server
         "http://iijs-directory-frontend.s3-website-us-east-1.amazonaws.com", #S3 website URL
         "https://d26crobm8snmzc.cloudfront.net" #cloudfront domain
-        "iijs-directory.app" #domain
-        "www.iijs-directory.app" #www domain variant
+        "https://iijs-directory.app" #domain
+        "https://www.iijs-directory.app" #www domain variant
     ]}})
 # configure database
 app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
