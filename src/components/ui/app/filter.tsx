@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../select";
-import type { Organization, OrganizationType } from "@/lib/data"; // needs to be created still
+import type { Organization, OrganizationType } from "@/lib/types"; // needs to be created still
 import { Input } from "../input";
 
 interface FilterDialogProps {
