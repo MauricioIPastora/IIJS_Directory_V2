@@ -25,10 +25,7 @@ else:
         "https://d26crobm8snmzc.cloudfront.net", #cloudfront domain
         "https://iijs-directory.app", #domain
         "https://www.iijs-directory.app" #www domain variant
-    ],
-    "methods": ["GET", "POST", "PUT", "DELETE"],
-    "allow_headers": ["Content-Type", "Authorization"]
-    }})
+    ]}})
 # configure database
 app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
