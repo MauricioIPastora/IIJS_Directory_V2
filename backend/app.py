@@ -25,7 +25,6 @@ else:
         "https://d26crobm8snmzc.cloudfront.net", #cloudfront domain
         "https://iijs-directory.app", #domain
         "https://www.iijs-directory.app" #www domain variant
-        "https://api.iijs-directory.app" #api subdomain variant
     ]}})
 # configure database
 app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
