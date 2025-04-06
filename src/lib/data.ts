@@ -4,7 +4,7 @@ import type { Contact } from "./types";
 import * as api from "./api";
 
 // API base URL from env
-export const API_BASE_URL = import.meta.env.VITE_API_URL || "";
+export const API_BASE_URL = import.meta.env.VITE_API_URL || "http://54.88.207.110:5000";
 
 // SWR fetcher function with error handling
 const fetcher = async (url: string) => {
