@@ -8,7 +8,7 @@ export const API_BASE_URL = import.meta.env.VITE_API_URL || "";
 
 // SWR fetcher function with error handling
 const fetcher = async (url: string) => {
-  const response = await fetch(url);
+  const response = await fetch(url, {headers: { "Origin": "https://api.iijs-directory.app" }});
   if (!response.ok) {
     throw new Error(`API error with status ${response.status}`);
   }
