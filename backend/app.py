@@ -24,7 +24,8 @@ else:
         "http://iijs-directory-frontend.s3-website-us-east-1.amazonaws.com", #S3 website URL
         "https://d26crobm8snmzc.cloudfront.net", #cloudfront domain
         "https://iijs-directory.app", #domain
-        "https://www.iijs-directory.app" #www domain variant
+        "https://www.iijs-directory.app"
+        "https://api.iijs-directory.app" #backend https api domain
     ]}})
 
 # configure database
