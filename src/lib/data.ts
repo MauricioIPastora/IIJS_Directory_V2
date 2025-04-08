@@ -71,7 +71,7 @@ const organizationTypes = typesData || [];
     try {
       await api.createContact(contact);
       // Revalidate the contacts cache
-      mutate('${API_BASE_URL}/view');
+      mutate(`${API_BASE_URL}/view`);
       return true;
     } catch (error) {
       console.error("Failed to add contact:", error);
@@ -87,7 +87,7 @@ const organizationTypes = typesData || [];
     try {
       await api.updateContact(id, updatedContact);
       // Revalidate the contacts cache
-      mutate('${API_BASE_URL}/view');
+      mutate(`${API_BASE_URL}/view`);
       return true;
     } catch (error) {
       console.error("Failed to update contact:", error);
@@ -100,7 +100,7 @@ const organizationTypes = typesData || [];
     try {
       await api.deleteContact(id);
       // Revalidate the contacts cache
-      mutate('${API_BASE_URL}/view');
+      mutate(`${API_BASE_URL}/view`);
       return true;
     } catch (error) {
       console.error("Failed to delete contact:", error);
