@@ -168,9 +168,9 @@ export function ContactsTable({
                 <TableCell className="hidden lg:table-cell">{contact.organizationType}</TableCell>
                 <TableCell className="hidden xl:table-cell">
                   <div className="flex space-x-2">
-                    {contact.linkedin && <span className="text-sm">LinkedIn</span>}
-                    {contact.instagram && <span className="text-sm">Instagram</span>}
-                    {contact.x && <span className="text-sm">X</span>}
+                    {contact.linkedin && (<a href={contact.linkedin} target="_blank" rel="noopener noreferrer"><Linkedin className="h-4 w-4" /></a>)}
+                    {contact.instagram && (<a href={`https://instagram.com/${contact.instagram}`} target="_blank" rel="noopener noreferrer"><Instagram className="h-4 w-4" /></a>)}
+                    {contact.x && (<a href={`https://x.com/${contact.x}`} target="_blank" rel="noopener noreferrer"><X className="h-4 w-4" /></a>)}
                   </div>
                 </TableCell>
                 <TableCell className="text-right">

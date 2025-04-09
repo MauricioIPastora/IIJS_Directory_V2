@@ -4,7 +4,7 @@ import { Input } from "../input";
 import { PlusCircle, X } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "../card";
 import { Badge } from "../badge";
-import type { Organization, OrganizationType } from "@/lib/types"; // needs to be made still
+import type { Organization, OrganizationType } from "@/lib/types";
 
 interface OrganizationManagerProps {
   title: string;
