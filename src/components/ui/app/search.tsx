@@ -49,7 +49,7 @@ export function TableSearch({ onSearch }: TableSearchProps) {
       <Input
         type="search"
         placeholder="Search contacts... (Press ⌘K)"
-        className="w-full pl-10"
+        className="w-full pl-11"
         value={query}
         onChange={(e) => handleSearch(e.target.value)}
         onClick={() => setOpen(true)}

@@ -9,7 +9,9 @@ on:
       - 'package.json'
       - 'index.html'
       - 'vite.config.ts'
+      - 'postcss.config.mjs'
       - '.github/workflows/frontend-deploy.yml'
+      
 
 jobs:
   build-and-deploy:
