@@ -49,7 +49,7 @@ export function TableSearch({ onSearch }: TableSearchProps) {
       <Input
         type="search"
         placeholder="Search contacts... (Press ⌘K)"
-        className="w-full pl-8"
+        className="w-full pl-10"
         value={query}
         onChange={(e) => handleSearch(e.target.value)}
         onClick={() => setOpen(true)}
@@ -65,14 +65,14 @@ export function TableSearch({ onSearch }: TableSearchProps) {
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Suggestions">
-            <CommandItem onSelect={() => handleSearch("marketing")}>
+            <CommandItem onSelect={() => handleSearch("OAS")}>
               <span>Search for OAS contacts</span>
             </CommandItem>
-            <CommandItem onSelect={() => handleSearch("sales")}>
+            <CommandItem onSelect={() => handleSearch("Embassy")}>
               <span>Search for Embassy contacts</span>
             </CommandItem>
-            <CommandItem onSelect={() => handleSearch("tech")}>
-              <span>Search for Private contacts</span>
+            <CommandItem onSelect={() => handleSearch("Private")}>
+              <span>Search for Private Organization contacts</span>
             </CommandItem>
           </CommandGroup>
           <CommandGroup heading="Tips">
