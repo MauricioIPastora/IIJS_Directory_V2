@@ -34,6 +34,15 @@ export function TableSearch({ onSearch }: TableSearchProps) {
     onSearch(value);
   };
 
+  //function to handle key down events in the search input
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      onSearch(query);
+      setOpen(false);
+    }
+  };
+
   return (
     <div className="relative">
       <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -44,12 +53,14 @@ export function TableSearch({ onSearch }: TableSearchProps) {
         value={query}
         onChange={(e) => handleSearch(e.target.value)}
         onClick={() => setOpen(true)}
+        onKeyDown={handleKeyDown}
       />
       <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput
           placeholder="Search contacts..."
           value={query}
           onValueChange={handleSearch}
+          onKeyDown={handleKeyDown}
         />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
