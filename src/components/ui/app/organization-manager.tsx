@@ -45,7 +45,7 @@ export function OrganizationManager({
         <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="flex !gap-3 mb-4 !px-4">
+        <div className="flex !gap-3 mb-4 !px-2">
           <Input
             className="!pl-2"
             placeholder={`Add new ${title.toLowerCase().slice(0, -1)}...`}
