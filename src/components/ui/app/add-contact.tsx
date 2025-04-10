@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../select";
-import { Contact, Organization, OrganizationType } from "@/lib/types"; // needs to be made still
+import { Contact, Organization, OrganizationType } from "@/lib/types";
 
 interface AddContactDialogProps {
   isOpen: boolean;
@@ -107,16 +107,17 @@ export function AddContactDialog({
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
+            <div className="space-y-2 !p-1">
               <Label htmlFor="fullName" className="!p-2">Full Name</Label>
               <Input
                 id="fullName"
                 value={formData.fullName}
                 onChange={(e) => handleChange("fullName", e.target.value)}
                 placeholder="John Doe"
+                className="!p-1"
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 !p-1">
               <Label htmlFor="email" className="!p-2">Email</Label>
               <Input
                 id="email"
@@ -124,21 +125,23 @@ export function AddContactDialog({
                 value={formData.email}
                 onChange={(e) => handleChange("email", e.target.value)}
                 placeholder="john@example.com"
+                className="!p-1"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
+            <div className="space-y-2 !p-1">
               <Label htmlFor="phone" className="!p-2">Phone Number</Label>
               <Input
                 id="phone"
                 value={formData.phone}
                 onChange={(e) => handleChange("phone", e.target.value)}
                 placeholder="+1 (555) 123-4567"
+                className="!p-1"
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 !p-1">
               <Label htmlFor="organization" className="!p-2">Organization</Label>
               <Select
                 value={formData.organization}
@@ -159,7 +162,7 @@ export function AddContactDialog({
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
+            <div className="space-y-2 !p-1">
               <Label htmlFor="organizationType" className="!p-2">Organization Type</Label>
               <Select
                 value={formData.organizationType}
@@ -189,6 +192,7 @@ export function AddContactDialog({
                   value={formData.linkedin}
                   onChange={(e) => handleChange("linkedin", e.target.value)}
                   placeholder="LinkedIn URL"
+                  className="!p-1"
                 />
               </div>
               <div>
@@ -196,6 +200,7 @@ export function AddContactDialog({
                   value={formData.instagram}
                   onChange={(e) => handleChange("instagram", e.target.value)}
                   placeholder="Instagram handle"
+                  className="!p-1"
                 />
               </div>
               <div>
@@ -203,12 +208,13 @@ export function AddContactDialog({
                   value={formData.x}
                   onChange={(e) => handleChange("x", e.target.value)}
                   placeholder="X handle"
+                  className="!p-1"
                 />
               </div>
             </div>
           </div>
         </div>
-        <DialogFooter>
+        <DialogFooter className="!p-3 gap-2">
           <Button variant="outline" onClick={onClose}>
             Cancel
           </Button>
