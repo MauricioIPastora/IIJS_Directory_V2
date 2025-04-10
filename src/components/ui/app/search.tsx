@@ -49,7 +49,7 @@ export function TableSearch({ onSearch }: TableSearchProps) {
       <Input
         type="search"
         placeholder="Search contacts... (Press ⌘K)"
-        className="w-full pl-11"
+        className="w-full !pl-10"
         value={query}
         onChange={(e) => handleSearch(e.target.value)}
         onClick={() => setOpen(true)}
@@ -57,12 +57,13 @@ export function TableSearch({ onSearch }: TableSearchProps) {
       />
       <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput
+          className="!pl-1"
           placeholder="Search contacts..."
           value={query}
           onValueChange={handleSearch}
           onKeyDown={handleKeyDown}
         />
-        <CommandList>
+        <CommandList className="!pl-1 !py-1">
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Suggestions">
             <CommandItem onSelect={() => handleSearch("OAS")}>

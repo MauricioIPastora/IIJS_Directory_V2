@@ -40,12 +40,12 @@ export function OrganizationManager({
   };
 
   return (
-    <Card>
-      <CardHeader>
+    <Card className="!m-3">
+      <CardHeader className="!pl-6 !pt-6">
         <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="flex gap-2 mb-4">
+        <div className="flex !gap-3 mb-4 !px-4">
           <Input
             placeholder={`Add new ${title.toLowerCase().slice(0, -1)}...`}
             value={newItem}
@@ -61,7 +61,7 @@ export function OrganizationManager({
           </Button>
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="!flex !flex-wrap !gap-3 !p-4">
           {items.map((item) => (
             <Badge
               key={item.id}

@@ -151,10 +151,10 @@ export function App() {
   };
 
   return (
-    <div className="container mx-auto py-6 space-y-6">
-      <h1 className="text-3xl font-bold">IIJS Directory</h1>
+    <div className="container mx-auto !py-6 !px-3 space-y-6">
+      <h1 className="text-3xl font-bold !pb-6">IIJS Directory</h1>
 
-      <div className="flex flex-col md:flex-row gap-4">
+      <div className="flex flex-col md:flex-row !gap-4">
         <div className="flex-1">
           <TableSearch onSearch={handleSearch} />
         </div>
@@ -185,7 +185,7 @@ export function App() {
           <Button
             variant="outline"
             onClick={handleExport}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 "
           >
             <Download className="h-4 w-4" />
             Export
@@ -208,7 +208,7 @@ export function App() {
           onRemove={removeOrganizationType}
         />
       </div>
-
+      
       <ContactsTable
         contacts={filteredContacts}
         organizations={organizations}

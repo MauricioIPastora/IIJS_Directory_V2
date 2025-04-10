@@ -138,7 +138,7 @@ export function ContactsTable({
   };
 
   return (
-    <div className="border rounded-md">
+    <div className="border rounded-md !px-2">
       <Table>
         <TableHeader>
           <TableRow>
@@ -148,7 +148,7 @@ export function ContactsTable({
             <TableHead className="hidden lg:table-cell">Organization</TableHead>
             <TableHead className="hidden lg:table-cell">Org. Type</TableHead>
             <TableHead className="hidden xl:table-cell">Social</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
+            <TableHead className="text-right !pr-10">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -167,7 +167,7 @@ export function ContactsTable({
                 <TableCell className="hidden lg:table-cell">{contact.organization}</TableCell>
                 <TableCell className="hidden lg:table-cell">{contact.organizationType}</TableCell>
                 <TableCell className="hidden xl:table-cell">
-                  <div className="flex space-x-2">
+                  <div className="flex space-x-2 !gap-1">
                     {contact.linkedin && (<a href={contact.linkedin} target="_blank" rel="noopener noreferrer"><Linkedin className="h-4 w-4" /></a>)}
                     {contact.instagram && (<a href={`https://instagram.com/${contact.instagram}`} target="_blank" rel="noopener noreferrer"><Instagram className="h-4 w-4" /></a>)}
                     {contact.x && (<a href={`https://x.com/${contact.x}`} target="_blank" rel="noopener noreferrer"><X className="h-4 w-4" /></a>)}
@@ -175,7 +175,7 @@ export function ContactsTable({
                 </TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
-                    <div className="hidden sm:flex gap-2">
+                    <div className="hidden sm:flex gap-2 !py-1">
                       <Button variant="ghost" size="icon" onClick={() => handleView(contact)}>
                         <Eye className="h-4 w-4" />
                       </Button>
