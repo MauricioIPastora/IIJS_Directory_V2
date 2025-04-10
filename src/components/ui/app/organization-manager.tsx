@@ -47,6 +47,7 @@ export function OrganizationManager({
       <CardContent>
         <div className="flex !gap-3 mb-4 !px-4">
           <Input
+            className="!pl-2"
             placeholder={`Add new ${title.toLowerCase().slice(0, -1)}...`}
             value={newItem}
             onChange={(e) => setNewItem(e.target.value)}

@@ -57,7 +57,7 @@ export function TableSearch({ onSearch }: TableSearchProps) {
       />
       <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput
-          className="!pl-1"
+          className="!pl-1 !py-1"
           placeholder="Search contacts..."
           value={query}
           onValueChange={handleSearch}

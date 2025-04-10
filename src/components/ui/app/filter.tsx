@@ -66,13 +66,13 @@ export function FilterDialog({
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-[500px]">
-        <DialogHeader>
+        <DialogHeader className="!pl-3 !pt-6">
           <DialogTitle>Filter Contacts</DialogTitle>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
+        <div className="grid gap-4 !p-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="organization">Organization</Label>
+              <Label htmlFor="organization" className="!pl-2 !pb-2">Organization</Label>
               <Select
                 value={filters.organization || ""}
                 onValueChange={(value) =>
@@ -93,7 +93,7 @@ export function FilterDialog({
               </Select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="organizationType">Organization Type</Label>
+              <Label htmlFor="organizationType" className="!pl-2 !pb-2">Organization Type</Label>
               <Select
                 value={filters.organizationType || ""}
                 onValueChange={(value) =>
@@ -116,8 +116,9 @@ export function FilterDialog({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="fullName">Name</Label>
+            <Label htmlFor="fullName" className="!p-2">Name</Label>
             <Input
+              className="!pl-2"
               id="fullName"
               placeholder="Filter by name"
               value={filters.fullName || ""}
@@ -127,8 +128,9 @@ export function FilterDialog({
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="!p-2">Email</Label>
               <Input
+                className="!pl-2"
                 id="email"
                 placeholder="Filter by email"
                 value={filters.email || ""}
@@ -136,8 +138,9 @@ export function FilterDialog({
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="phone">Phone</Label>
+              <Label htmlFor="phone" className="!p-2">Phone</Label>
               <Input
+                className="!pl-2"
                 id="phone"
                 placeholder="Filter by phone"
                 value={filters.phone || ""}
@@ -146,7 +149,7 @@ export function FilterDialog({
             </div>
           </div>
         </div>
-        <DialogFooter className="flex justify-between">
+        <DialogFooter className="flex justify-between !p-4 !gap-2">
           <Button variant="outline" onClick={handleClear}>
             Clear Filters
           </Button>

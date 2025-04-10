@@ -100,7 +100,7 @@ export function AddContactDialog({
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-[500px]">
-        <DialogHeader>
+        <DialogHeader className="!pl-3 !pt-6">
           <DialogTitle>
             {isEditing ? "Edit Contact" : "Add New Contact"}
           </DialogTitle>
@@ -108,7 +108,7 @@ export function AddContactDialog({
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="fullName">Full Name</Label>
+              <Label htmlFor="fullName" className="!p-2">Full Name</Label>
               <Input
                 id="fullName"
                 value={formData.fullName}
@@ -117,7 +117,7 @@ export function AddContactDialog({
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="!p-2">Email</Label>
               <Input
                 id="email"
                 type="email"
@@ -130,7 +130,7 @@ export function AddContactDialog({
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="phone">Phone Number</Label>
+              <Label htmlFor="phone" className="!p-2">Phone Number</Label>
               <Input
                 id="phone"
                 value={formData.phone}
@@ -139,7 +139,7 @@ export function AddContactDialog({
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="organization">Organization</Label>
+              <Label htmlFor="organization" className="!p-2">Organization</Label>
               <Select
                 value={formData.organization}
                 onValueChange={(value) => handleChange("organization", value)}
@@ -160,7 +160,7 @@ export function AddContactDialog({
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="organizationType">Organization Type</Label>
+              <Label htmlFor="organizationType" className="!p-2">Organization Type</Label>
               <Select
                 value={formData.organizationType}
                 onValueChange={(value) =>
@@ -181,8 +181,8 @@ export function AddContactDialog({
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label>Social Media</Label>
+          <div className="space-y-2 !px-1">
+            <Label className="!p-2">Social Media</Label>
             <div className="grid grid-cols-3 gap-4">
               <div>
                 <Input
