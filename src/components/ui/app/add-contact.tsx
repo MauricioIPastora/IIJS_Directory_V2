@@ -107,7 +107,7 @@ export function AddContactDialog({
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2 !p-1">
+            <div className="space-y-2 !pl-2">
               <Label htmlFor="fullName" className="!p-2">Full Name</Label>
               <Input
                 id="fullName"
@@ -117,7 +117,7 @@ export function AddContactDialog({
                 className="!p-1"
               />
             </div>
-            <div className="space-y-2 !p-1">
+            <div className="space-y-2 !pr-2">
               <Label htmlFor="email" className="!p-2">Email</Label>
               <Input
                 id="email"
@@ -131,7 +131,7 @@ export function AddContactDialog({
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2 !p-1">
+            <div className="space-y-2 !pl-2">
               <Label htmlFor="phone" className="!p-2">Phone Number</Label>
               <Input
                 id="phone"
@@ -141,7 +141,7 @@ export function AddContactDialog({
                 className="!p-1"
               />
             </div>
-            <div className="space-y-2 !p-1">
+            <div className="space-y-2 !pr-2">
               <Label htmlFor="organization" className="!p-2">Organization</Label>
               <Select
                 value={formData.organization}
@@ -162,7 +162,7 @@ export function AddContactDialog({
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2 !p-1">
+            <div className="space-y-2 !px-2">
               <Label htmlFor="organizationType" className="!p-2">Organization Type</Label>
               <Select
                 value={formData.organizationType}
@@ -184,7 +184,7 @@ export function AddContactDialog({
             </div>
           </div>
 
-          <div className="space-y-2 !px-1">
+          <div className="space-y-2 !px-2">
             <Label className="!p-2">Social Media</Label>
             <div className="grid grid-cols-3 gap-4">
               <div>
