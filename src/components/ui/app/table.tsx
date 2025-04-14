@@ -86,7 +86,7 @@ function ViewContactDialog({
             </div>
           </div>
         </div>
-        <DialogFooter>
+        <DialogFooter className="!pr-4 !pb-4">
           <Button onClick={onClose}>Close</Button>
         </DialogFooter>
       </DialogContent>
@@ -182,8 +182,8 @@ export function ContactsTable({
                       <Button variant="ghost" size="icon" onClick={() => handleEdit(contact)}>
                         <Pencil className="h-4 w-4" />
                       </Button>
-                      <Button variant="ghost" size="icon" onClick={() => handleDelete(contact)}>
-                        <Trash2 className="h-4 w-4" />
+                      <Button variant="ghost" size="icon" onClick={() => handleDelete(contact)} className="!border-red-500 hover:!bg-red-500 group">
+                        <Trash2 className="h-4 w-4 text-red-500 group-hover:!text-white" />
                       </Button>
                     </div>
                     <div className="sm:hidden">
