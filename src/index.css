@@ -13,7 +13,7 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(0, 0, 0, 0.87);
+  color: #00609c;
   background-color: #ffffff;
 
   font-synthesis: none;
@@ -59,7 +59,9 @@ button {
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  background-color: #00609c;
+  border-color: #00609c;
+  color: white;
 }
 button:focus,
 button:focus-visible {
