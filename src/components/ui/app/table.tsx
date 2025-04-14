@@ -23,34 +23,34 @@ function ViewContactDialog({
 }) {
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-[500px]">
-        <DialogHeader>
+      <DialogContent className="sm:max-w-[500px] bg-white">
+        <DialogHeader className="!pl-4 !pt-6">
           <DialogTitle>Contact Details</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <div className="space-y-1">
-            <h3 className="text-xl font-semibold">{contact.fullName}</h3>
-            <p className="text-muted-foreground">
+            <h3 className="text-xl font-semibold !pl-4 !pb-1">{contact.fullName}</h3>
+            <p className="text-muted-foreground !pl-4 !pb-2">
               {contact.organization} • {contact.organizationType}
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">Email</p>
+          <div className="grid grid-cols-2 gap-4 !pl-4">
+            <div className="!pb-2">
+              <p className="text-m font-semibold text-muted-foreground">Email:</p>
               <p>{contact.email}</p>
             </div>
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">Phone</p>
+            <div className="!pb-2">
+              <p className="text-m font-semibold text-muted-foreground">Phone:</p>
               <p>{contact.phone}</p>
             </div>
           </div>
 
           <div>
-            <p className="text-sm font-medium text-muted-foreground mb-2">
+            <p className="text-m font-semibold text-muted-foreground mb-2 !pl-4 !pb-1">
               Social Media
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-4 !pl-4">
               {contact.linkedin && (
                 <a
                   href={contact.linkedin}
