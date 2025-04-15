@@ -1,5 +1,9 @@
 IIJS Contact Directory
-A web application for managing contacts with organization filtering and export capabilities.
+
+This is a web application for managing contacts with organization filtering and export capabilities.
+
+URL: iijs-directory.app
+
 Tech Stack
 Frontend:
 
