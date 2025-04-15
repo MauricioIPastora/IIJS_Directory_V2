@@ -67,7 +67,7 @@ export function OrganizationManager({
             <Badge
               key={item.id}
               variant="secondary"
-              className="flex items-center gap-1 py-1 px-3"
+              className="flex items-center gap-1 py-1 px-3 hover:cursor-pointer hover:bg-gray-200"
             >
               {item.name}
               <Button
