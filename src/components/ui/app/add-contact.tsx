@@ -99,7 +99,7 @@ export function AddContactDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[500px] bg-white">
         <DialogHeader className="!pl-3 !pt-6">
           <DialogTitle>
             {isEditing ? "Edit Contact" : "Add New Contact"}
@@ -114,7 +114,7 @@ export function AddContactDialog({
                 value={formData.fullName}
                 onChange={(e) => handleChange("fullName", e.target.value)}
                 placeholder="John Doe"
-                className="!p-1"
+                className="!p-1 !border-2"
               />
             </div>
             <div className="space-y-2 !pr-2">
@@ -125,7 +125,7 @@ export function AddContactDialog({
                 value={formData.email}
                 onChange={(e) => handleChange("email", e.target.value)}
                 placeholder="john@example.com"
-                className="!p-1"
+                className="!p-1 !border-2"
               />
             </div>
           </div>
@@ -138,7 +138,7 @@ export function AddContactDialog({
                 value={formData.phone}
                 onChange={(e) => handleChange("phone", e.target.value)}
                 placeholder="+1 (555) 123-4567"
-                className="!p-1"
+                className="!p-1 !border-2"
               />
             </div>
             <div className="space-y-2 !pr-2">
@@ -192,7 +192,7 @@ export function AddContactDialog({
                   value={formData.linkedin}
                   onChange={(e) => handleChange("linkedin", e.target.value)}
                   placeholder="LinkedIn URL"
-                  className="!p-1"
+                  className="!p-1 !border-2"
                 />
               </div>
               <div>
@@ -200,7 +200,7 @@ export function AddContactDialog({
                   value={formData.instagram}
                   onChange={(e) => handleChange("instagram", e.target.value)}
                   placeholder="Instagram handle"
-                  className="!p-1"
+                  className="!p-1 !border-2"
                 />
               </div>
               <div>
@@ -208,7 +208,7 @@ export function AddContactDialog({
                   value={formData.x}
                   onChange={(e) => handleChange("x", e.target.value)}
                   placeholder="X handle"
-                  className="!p-1"
+                  className="!p-1 !border-2"
                 />
               </div>
             </div>
