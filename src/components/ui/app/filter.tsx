@@ -65,7 +65,7 @@ export function FilterDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[500px] bg-white">
         <DialogHeader className="!pl-3 !pt-6">
           <DialogTitle>Filter Contacts</DialogTitle>
         </DialogHeader>
