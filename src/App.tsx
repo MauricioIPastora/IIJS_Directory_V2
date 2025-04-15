@@ -151,7 +151,7 @@ export function App() {
 
   return (
     <div className="container mx-auto">
-    <header className="!bg-[#00609C] flex !items-center !px-6 !py-4">
+    <header className="!bg-[#00609C] flex !items-center !px-6 !py-4 !rounded-b-md !border-b-4 !border-[#80bc00]">
     <img src="/logocircleenglish.jpg" alt="IIJS Logo" className="h-24 !mr-4 !rounded-full" />
       <h1 className="text-3xl font-bold !py-6 !text-white">IIJS Directory</h1>
         </header>
