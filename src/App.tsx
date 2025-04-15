@@ -162,7 +162,7 @@ export function App() {
           <Button
             variant="outline"
             onClick={() => setIsFilterOpen(true)}
-            className="flex items-center gap-2 !text-[#636569] hover:!text-white"
+            className="flex items-center gap-2 !text-[#636569] hover:!text-white hover:!bg-[#636569] !border-[#636569]"
           >
             <Filter className="h-4 w-4" />
             Filter
