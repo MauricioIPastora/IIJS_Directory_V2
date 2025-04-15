@@ -162,7 +162,7 @@ export function App() {
           <Button
             variant="outline"
             onClick={() => setIsFilterOpen(true)}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 !text-[#636569] hover:!text-white"
           >
             <Filter className="h-4 w-4" />
             Filter
@@ -175,7 +175,7 @@ export function App() {
 
           <Button
             onClick={() => setIsAddContactOpen(true)}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 !border-[#80BC00] !text-[#80BC00] hover:!bg-[#80BC00] hover:!text-white"
           >
             <PlusCircle className="h-4 w-4" />
             Add Contact
@@ -184,7 +184,7 @@ export function App() {
           <Button
             variant="outline"
             onClick={handleExport}
-            className="flex items-center gap-2 "
+            className="flex items-center gap-2 !border-[#00609C]"
           >
             <Download className="h-4 w-4" />
             Export
