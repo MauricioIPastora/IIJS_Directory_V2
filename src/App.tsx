@@ -54,10 +54,10 @@ export function App() {
       <div className="container mx-auto py-6 flex items-center justify-center min-h-screen">
         <div className="text-center">
           <h2 className="text-2xl font-semibold mb-2 text-destructive">
-            Error connecting to database
+            Error connecting to application
           </h2>
           <p className="text-muted-foreground mb-4">
-            There was a problem connecting to your database. Please try again
+            There was a problem loading your application. Please try again
             later.
           </p>
           <Button onClick={() => window.location.reload()}>Retry</Button>
