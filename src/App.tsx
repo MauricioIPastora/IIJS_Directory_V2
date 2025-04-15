@@ -150,10 +150,12 @@ export function App() {
   };
 
   return (
-    <div className="container mx-auto !py-6 !px-3 space-y-6">
-      <h1 className="text-3xl font-bold !pb-6">IIJS Directory</h1>
-
-      <div className="flex flex-col md:flex-row !gap-4">
+    <div className="container mx-auto">
+    <header className="!bg-[#00609C] flex !items-center !px-6 !py-4">
+    <img src="/logocircleenglish.jpg" alt="IIJS Logo" className="h-24 !mr-4 !rounded-full" />
+      <h1 className="text-3xl font-bold !py-6 !text-white">IIJS Directory</h1>
+        </header>
+      <div className="flex flex-col md:flex-row !gap-4 !pt-4 !px-2">
         <div className="flex-1">
           <TableSearch onSearch={handleSearch} />
         </div>
@@ -207,13 +209,13 @@ export function App() {
           onRemove={removeOrganizationType}
         />
       </div>
-      
+      <div className="!px-2">
       <ContactsTable
         contacts={filteredContacts}
         organizations={organizations}
         organizationTypes={organizationTypes}
       />
-
+      </div>
       <AddContactDialog
         isOpen={isAddContactOpen}
         onClose={() => setIsAddContactOpen(false)}
