@@ -176,11 +176,11 @@ export function ContactsTable({
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
                     <div className="hidden sm:flex gap-2 !py-1">
-                      <Button variant="ghost" size="icon" onClick={() => handleView(contact)}>
-                        <Eye className="h-4 w-4" />
+                      <Button variant="ghost" size="icon" onClick={() => handleView(contact)} className="group">
+                        <Eye className="h-4 w-4 !text-[#636569] group-hover:!text-white" />
                       </Button>
-                      <Button variant="ghost" size="icon" onClick={() => handleEdit(contact)}>
-                        <Pencil className="h-4 w-4" />
+                      <Button variant="ghost" size="icon" onClick={() => handleEdit(contact)} className=" !border-[#00609c] group">
+                        <Pencil className="h-4 w-4 !text-[#00609c] group-hover:!text-white" />
                       </Button>
                       <Button variant="ghost" size="icon" onClick={() => handleDelete(contact)} className="!border-red-500 hover:!bg-red-500 group">
                         <Trash2 className="h-4 w-4 text-red-500 group-hover:!text-white" />
