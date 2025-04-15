@@ -115,9 +115,8 @@ export function App() {
     const results = contacts.filter((contact) => {
       return Object.entries(filters).every(([key, value]) => {
         if (!value) return true;
-        return (
-          contact[key as keyof Contact]?.toLowerCase() === value.toLowerCase()
-        );
+        const fieldValue = contact[key as keyof Contact]?.toLowerCase() || "";
+        return fieldValue.includes(value.toLowerCase());
       });
     });
 
