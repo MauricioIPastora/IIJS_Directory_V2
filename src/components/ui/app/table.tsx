@@ -142,13 +142,13 @@ export function ContactsTable({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Full Name</TableHead>
-            <TableHead className="hidden md:table-cell">Email</TableHead>
-            <TableHead className="hidden md:table-cell">Phone</TableHead>
-            <TableHead className="hidden lg:table-cell">Organization</TableHead>
-            <TableHead className="hidden lg:table-cell">Org. Type</TableHead>
-            <TableHead className="hidden xl:table-cell">Social</TableHead>
-            <TableHead className="text-right !pr-10">Actions</TableHead>
+            <TableHead className="!font-semibold">Full Name</TableHead>
+            <TableHead className="hidden md:table-cell !font-semibold">Email</TableHead>
+            <TableHead className="hidden md:table-cell !font-semibold">Phone</TableHead>
+            <TableHead className="hidden lg:table-cell !font-semibold">Organization</TableHead>
+            <TableHead className="hidden lg:table-cell !font-semibold">Org. Type</TableHead>
+            <TableHead className="hidden xl:table-cell !font-semibold">Social</TableHead>
+            <TableHead className="text-right !pr-10 !font-semibold">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
