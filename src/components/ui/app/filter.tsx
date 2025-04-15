@@ -82,10 +82,10 @@ export function FilterDialog({
                 <SelectTrigger id="organization">
                   <SelectValue placeholder="All organizations" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All organizations</SelectItem>
+                <SelectContent className="!bg-white !p-1">
+                  <SelectItem value="all" className="hover:!cursor-pointer hover:!bg-gray-200">All organizations</SelectItem>
                   {organizations.map((org) => (
-                    <SelectItem key={org.id} value={org.name}>
+                    <SelectItem key={org.id} value={org.name} className="hover:!cursor-pointer hover:!bg-gray-200">
                       {org.name}
                     </SelectItem>
                   ))}
@@ -103,10 +103,10 @@ export function FilterDialog({
                 <SelectTrigger id="organizationType">
                   <SelectValue placeholder="All types" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All types</SelectItem>
+                <SelectContent className="!bg-white !p-1">
+                  <SelectItem value="all" className="hover:!cursor-pointer hover:!bg-gray-200">All types</SelectItem>
                   {organizationTypes.map((type) => (
-                    <SelectItem key={type.id} value={type.name}>
+                    <SelectItem key={type.id} value={type.name} className="hover:!cursor-pointer hover:!bg-gray-200">
                       {type.name}
                     </SelectItem>
                   ))}
