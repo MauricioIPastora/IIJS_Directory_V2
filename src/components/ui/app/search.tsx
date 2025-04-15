@@ -55,24 +55,26 @@ export function TableSearch({ onSearch }: TableSearchProps) {
         onClick={() => setOpen(true)}
         onKeyDown={handleKeyDown}
       />
+      <div className="!bg-white !rounded-lg !overflow-hidden">
       <CommandDialog open={open} onOpenChange={setOpen}>
+        <div className="!bg-white !px-2 !py-2">
         <CommandInput
-          className="!pl-1 !py-1"
+          className="!pl-1 !py-1 !bg-white"
           placeholder="Search contacts..."
           value={query}
           onValueChange={handleSearch}
           onKeyDown={handleKeyDown}
-        />
-        <CommandList className="!pl-1 !py-1">
+        /></div>
+        <CommandList className="!pl-3 !py-1 bg-white">
           <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Suggestions">
-            <CommandItem onSelect={() => handleSearch("OAS")}>
+          <CommandGroup heading="Suggestions" className="bg-white">
+            <CommandItem onSelect={() => handleSearch("OAS")} className="hover:bg-gray-100">
               <span>Search for OAS contacts</span>
             </CommandItem>
-            <CommandItem onSelect={() => handleSearch("Embassy")}>
+            <CommandItem onSelect={() => handleSearch("Embassy")} className="hover:bg-gray-100">
               <span>Search for Embassy contacts</span>
             </CommandItem>
-            <CommandItem onSelect={() => handleSearch("Private")}>
+            <CommandItem onSelect={() => handleSearch("Private")} className="hover:bg-gray-100">
               <span>Search for Private Organization contacts</span>
             </CommandItem>
           </CommandGroup>
@@ -86,6 +88,7 @@ export function TableSearch({ onSearch }: TableSearchProps) {
           </CommandGroup>
         </CommandList>
       </CommandDialog>
+      </div>
     </div>
   );
 }
