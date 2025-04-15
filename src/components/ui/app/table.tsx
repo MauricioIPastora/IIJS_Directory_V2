@@ -230,17 +230,19 @@ export function ContactsTable({
 
       <AlertDialog open={!!deleteConfirmContact} onOpenChange={(open) => !open && setDeleteConfirmContact(null)}>
         <AlertDialogContent className="sm:max-w-[425px] bg-white">
-          <AlertDialogHeader className="!pt-6 !pl-4">
+          <AlertDialogHeader className="!place-items-center !pt-4">
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This will permanently delete the contact {deleteConfirmContact?.fullName}. This action cannot be undone.
+            <AlertDialogDescription className="!p-2 !place-items-center !text-center">
+              This will permanently delete the contact {deleteConfirmContact?.fullName}.
+              <br />
+               This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="!pr-4 !pb-4 gap-2">
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
-              className="bg-destructive text-destructive-foreground"
+              className="bg-destructive text-destructive-foreground hover:!bg-red-500 hover:!border-red-500"
               disabled={isLoading}
             >
               {isLoading ? "Deleting..." : "Delete"}
