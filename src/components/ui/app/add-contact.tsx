@@ -150,9 +150,9 @@ export function AddContactDialog({
                 <SelectTrigger>
                   <SelectValue placeholder="Select organization" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="!bg-white !p-1">
                   {organizations.map((org) => (
-                    <SelectItem key={org.id} value={org.name}>
+                    <SelectItem key={org.id} value={org.name} className="hover:!cursor-pointer hover:!bg-gray-200">
                       {org.name}
                     </SelectItem>
                   ))}
@@ -173,9 +173,9 @@ export function AddContactDialog({
                 <SelectTrigger>
                   <SelectValue placeholder="Select type" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="!bg-white !p-1">
                   {organizationTypes.map((type) => (
-                    <SelectItem key={type.id} value={type.name}>
+                    <SelectItem key={type.id} value={type.name} className="hover:!cursor-pointer hover:!bg-gray-200">
                       {type.name}
                     </SelectItem>
                   ))}
