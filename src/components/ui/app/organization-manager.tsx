@@ -73,7 +73,7 @@ export function OrganizationManager({
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-4 w-4 p-0 ml-1"
+                className="h-4 w-4 p-0 ml-1 !text-[#636569] hover:!text-white"
                 onClick={() => onRemove(item.id)}
               >
                 <X className="h-3 w-3" />
