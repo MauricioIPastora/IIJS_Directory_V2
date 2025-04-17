@@ -66,6 +66,7 @@ export async function updateContact(id: string, contact: Omit<Contact, "id">) {
     },
     body: JSON.stringify(transformedContact),
   });
+  console.log(`Contact edited in api: ${response.status}`); // Debugging line to check the response status
   return handleResponse(response);
 }
 

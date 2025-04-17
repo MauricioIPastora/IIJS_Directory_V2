@@ -1,6 +1,6 @@
 import "./App.css";
 import { TableSearch } from "./components/ui/app/search";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { ContactsTable } from "./components/ui/app/table";
 import { AddContactDialog } from "./components/ui/app/add-contact";
 import { OrganizationManager } from "./components/ui/app/organization-manager";
@@ -8,14 +8,12 @@ import { Button } from "./components/ui/button";
 import { PlusCircle, Download, Filter } from "lucide-react";
 import { FilterDialog } from "./components/ui/app/filter";
 import { useContacts } from "./lib/data";
-import type { Contact } from "./lib/types";
 import { exportToExcel } from "./lib/export-util";
 
 export function App() {
+  // Use raw contacts from SWR (remove filteredContacts from the hook)
   const {
     contacts,
-    filteredContacts,
-    setFilteredContacts,
     addContact,
     organizations,
     organizationTypes,
@@ -30,9 +28,41 @@ export function App() {
   const [isAddContactOpen, setIsAddContactOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeFilters, setActiveFilters] = useState<Record<string, string>>(
-    {}
-  );
+  const [activeFilters, setActiveFilters] = useState<Record<string, string>>({});
+
+  // Derive the displayed contacts from raw contacts, active filters, and search query
+  const displayedContacts = useMemo(() => {
+    let result = contacts;
+    // Apply active filters (if any)
+    if (Object.keys(activeFilters).length > 0) {
+      result = result.filter((contact) => {
+        return Object.entries(activeFilters).every(([key, value]) => {
+          if (!value) return true;
+          const fieldValue = contact[key as keyof typeof contact]?.toLowerCase() || "";
+          return fieldValue.includes(value.toLowerCase());
+        });
+      });
+    }
+    // Apply search query (if any)
+    if (searchQuery) {
+      result = result.filter((contact) => {
+        const searchableFields = [
+          contact.fullName,
+          contact.email,
+          contact.phone,
+          contact.organization,
+          contact.organizationType,
+          contact.linkedin,
+          contact.instagram,
+          contact.x,
+        ];
+        return searchableFields.some((field) =>
+          field?.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+      });
+    }
+    return result;
+  }, [contacts, activeFilters, searchQuery]);
 
   // Handle loading state
   if (isLoading) {
@@ -57,8 +87,7 @@ export function App() {
             Error connecting to application
           </h2>
           <p className="text-muted-foreground mb-4">
-            There was a problem loading your application. Please try again
-            later.
+            There was a problem loading your application. Please try again later.
           </p>
           <Button onClick={() => window.location.reload()}>Retry</Button>
         </div>
@@ -68,98 +97,26 @@ export function App() {
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
-
-    if (!query) {
-      // If no search query, just apply filters
-      applyFilters(activeFilters);
-      return;
-    }
-
-    // Filter the already filtered contacts 
-    const baseContacts =
-      Object.keys(activeFilters).length > 0 ? filteredContacts : contacts;
-
-    const results = baseContacts.filter((contact) => {
-      const searchableFields = [
-        contact.fullName,
-        contact.email,
-        contact.phone,
-        contact.organization,
-        contact.organizationType,
-        contact.linkedin,
-        contact.instagram,
-        contact.x,
-      ];
-
-      return searchableFields.some((field) =>
-        field?.toLowerCase().includes(query.toLowerCase())
-      );
-    });
-
-    setFilteredContacts(results);
   };
 
   const applyFilters = (filters: Record<string, string>) => {
     setActiveFilters(filters);
-
-    if (Object.keys(filters).length === 0) {
-      // If no filters, just apply search
-      if (searchQuery) {
-        handleSearch(searchQuery);
-      } else {
-        setFilteredContacts(contacts);
-      }
-      return;
-    }
-
-    const results = contacts.filter((contact) => {
-      return Object.entries(filters).every(([key, value]) => {
-        if (!value) return true;
-        const fieldValue = contact[key as keyof Contact]?.toLowerCase() || "";
-        return fieldValue.includes(value.toLowerCase());
-      });
-    });
-
-    // If there's a search query, further filter the results
-    if (searchQuery) {
-      const searchResults = results.filter((contact) => {
-        const searchableFields = [
-          contact.fullName,
-          contact.email,
-          contact.phone,
-          contact.organization,
-          contact.organizationType,
-          contact.linkedin,
-          contact.instagram,
-          contact.x,
-        ];
-
-        return searchableFields.some((field) =>
-          field?.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-      });
-
-      setFilteredContacts(searchResults);
-    } else {
-      setFilteredContacts(results);
-    }
   };
 
   const handleExport = () => {
-    exportToExcel(filteredContacts, "contacts");
+    exportToExcel(displayedContacts, "contacts");
   };
 
   return (
     <div className="container mx-auto">
-    <header className="!bg-[#00609C] flex !items-center !px-6 !py-4 !rounded-b-md !border-b-4 !border-[#80bc00]">
-    <img src="/logocircleenglish.jpg" alt="IIJS Logo" className="h-24 !mr-4 !rounded-full" />
-      <h1 className="text-3xl font-bold !py-6 !text-white">IIJS Directory</h1>
-        </header>
+      <header className="!bg-[#00609C] flex !items-center !px-6 !py-4 !rounded-b-md !border-b-4 !border-[#80bc00]">
+        <img src="/logocircleenglish.jpg" alt="IIJS Logo" className="h-24 !mr-4 !rounded-full" />
+        <h1 className="text-3xl font-bold !py-6 !text-white">IIJS Directory</h1>
+      </header>
       <div className="flex flex-col md:flex-row !gap-4 !pt-4 !px-2">
         <div className="flex-1">
           <TableSearch onSearch={handleSearch} />
         </div>
-
         <div className="flex gap-2">
           <Button
             variant="outline"
@@ -174,7 +131,6 @@ export function App() {
               </span>
             )}
           </Button>
-
           <Button
             onClick={() => setIsAddContactOpen(true)}
             className="flex items-center gap-2 !border-[#80BC00] !text-[#80BC00] hover:!bg-[#80BC00] hover:!text-white"
@@ -182,7 +138,6 @@ export function App() {
             <PlusCircle className="h-4 w-4" />
             Add Contact
           </Button>
-
           <Button
             variant="outline"
             onClick={handleExport}
@@ -193,7 +148,6 @@ export function App() {
           </Button>
         </div>
       </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <OrganizationManager
           title="Organizations"
@@ -201,7 +155,6 @@ export function App() {
           onAdd={addOrganization}
           onRemove={removeOrganization}
         />
-
         <OrganizationManager
           title="Organization Types"
           items={organizationTypes}
@@ -210,11 +163,11 @@ export function App() {
         />
       </div>
       <div className="!px-2">
-      <ContactsTable
-        contacts={filteredContacts}
-        organizations={organizations}
-        organizationTypes={organizationTypes}
-      />
+        <ContactsTable
+          contacts={displayedContacts}
+          organizations={organizations}
+          organizationTypes={organizationTypes}
+        />
       </div>
       <AddContactDialog
         isOpen={isAddContactOpen}
@@ -223,7 +176,6 @@ export function App() {
         organizationTypes={organizationTypes}
         onAddContact={addContact}
       />
-
       <FilterDialog
         isOpen={isFilterOpen}
         onClose={() => setIsFilterOpen(false)}
