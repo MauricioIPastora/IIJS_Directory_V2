@@ -53,7 +53,7 @@ export function OrganizationManager({
             onChange={(e) => setNewItem(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleAdd()}
           />
-          <Button onClick={handleAdd} size="icon" disabled={isSubmitting}>
+          <Button onClick={handleAdd} size="icon" disabled={isSubmitting} className="!border-[#00609c]">
             {isSubmitting ? (
               <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
             ) : (
