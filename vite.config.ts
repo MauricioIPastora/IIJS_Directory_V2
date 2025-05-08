@@ -23,6 +23,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     define: {
+      'process.env': {},
       // Define the values with fallbacks
       'import.meta.env.VITE_AWS_USER_POOL_ID': JSON.stringify(poolConfig.userPoolId),
       'import.meta.env.VITE_AWS_USER_POOL_WEB_CLIENT_ID': JSON.stringify(poolConfig.clientId),
