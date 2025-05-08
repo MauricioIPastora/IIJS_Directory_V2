@@ -5,13 +5,20 @@ import { ContactsTable } from "./components/ui/app/table";
 import { AddContactDialog } from "./components/ui/app/add-contact";
 import { OrganizationManager } from "./components/ui/app/organization-manager";
 import { Button } from "./components/ui/button";
-import { PlusCircle, Download, Filter } from "lucide-react";
+import { PlusCircle, Download, Filter, LogOut } from "lucide-react";
 import { FilterDialog } from "./components/ui/app/filter";
 import { useContacts } from "./lib/data";
 import { exportToExcel } from "./lib/export-util";
 
+// Auth imports
+import { useAuth } from "./components/ui/auth/auth-context";
+import LoginForm from "./components/ui/auth/login-form";
+
 export function App() {
-  // Use raw contacts from SWR (remove filteredContacts from the hook)
+  // Authentication hook
+  const { isAuthenticated, signIn, signOut, isLoading: authLoading } = useAuth();
+
+  // Use raw contacts from SWR
   const {
     contacts,
     addContact,
@@ -21,7 +28,7 @@ export function App() {
     removeOrganization,
     addOrganizationType,
     removeOrganizationType,
-    isLoading,
+    isLoading: dataLoading,
     error,
   } = useContacts();
 
@@ -29,6 +36,25 @@ export function App() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeFilters, setActiveFilters] = useState<Record<string, string>>({});
+
+  // Login Handler Function
+  const handleLogin = async (email: string, password: string) => {
+    try {
+      await signIn(email, password);
+    } catch (error) {
+      console.error("Login error:", error);
+      throw error;
+    }
+  };
+
+  // Logout Handler Function
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
 
   // Derive the displayed contacts from raw contacts, active filters, and search query
   const displayedContacts = useMemo(() => {
@@ -64,8 +90,39 @@ export function App() {
     return result;
   }, [contacts, activeFilters, searchQuery]);
 
-  // Handle loading state
-  if (isLoading) {
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+  };
+
+  const applyFilters = (filters: Record<string, string>) => {
+    setActiveFilters(filters);
+  };
+
+  const handleExport = () => {
+    exportToExcel(displayedContacts, "contacts");
+  };
+
+  // Show auth loading state
+  if (authLoading) {
+    return (
+      <div className="container mx-auto py-6 flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <h2 className="text-2xl font-semibold mb-2">Verifying authentication...</h2>
+          <p className="text-muted-foreground">
+            Please wait while we check your login status.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // If not authenticated, show login form
+  if (!isAuthenticated) {
+    return <LoginForm onSubmit={handleLogin} />;
+  }
+
+  // Handle data loading state
+  if (dataLoading) {
     return (
       <div className="container mx-auto py-6 flex items-center justify-center min-h-screen">
         <div className="text-center">
@@ -95,23 +152,22 @@ export function App() {
     );
   }
 
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
-  };
-
-  const applyFilters = (filters: Record<string, string>) => {
-    setActiveFilters(filters);
-  };
-
-  const handleExport = () => {
-    exportToExcel(displayedContacts, "contacts");
-  };
-
+  // Main application UI - only render when authenticated
   return (
     <div className="container mx-auto">
-      <header className="!bg-[#00609C] flex !items-center !px-6 !py-4 !rounded-b-md !border-b-4 !border-[#80bc00]">
-        <img src="/logocircleenglish.jpg" alt="IIJS Logo" className="h-24 !mr-4 !rounded-full" />
-        <h1 className="text-3xl font-bold !py-6 !text-white">IIJS Directory</h1>
+      <header className="!bg-[#00609C] flex !items-center !justify-between !px-6 !py-4 !rounded-b-md !border-b-4 !border-[#80bc00]">
+        <div className="flex items-center">
+          <img src="/logocircleenglish.jpg" alt="IIJS Logo" className="h-24 !mr-4 !rounded-full" />
+          <h1 className="text-3xl font-bold !py-6 !text-white">IIJS Directory</h1>
+        </div>
+        <Button 
+          onClick={handleSignOut}
+          variant="outline" 
+          className="!text-[#00609C] !border-white hover:!bg-[#00609C] hover:!text-white"
+        >
+          <LogOut className="mr-2 h-4 w-4" />
+          Sign Out
+        </Button>
       </header>
       <div className="flex flex-col md:flex-row !gap-4 !pt-4 !px-2">
         <div className="flex-1">

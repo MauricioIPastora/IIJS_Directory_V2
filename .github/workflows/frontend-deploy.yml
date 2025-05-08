@@ -33,6 +33,9 @@ jobs:
       run: npm run build
       env:
         VITE_API_URL: ${{ secrets.VITE_API_URL }}
+        VITE_AWS_REGION: ${{ secrets.VITE_AWS_REGION }}
+        VITE_AWS_USER_POOL_ID: ${{ secrets.VITE_AWS_USER_POOL_ID }}
+        VITE_AWS_USER_POOL_WEB_CLIENT_ID: ${{ secrets.VITE_AWS_USER_POOL_WEB_CLIENT_ID }}
     
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v2
@@ -53,4 +56,4 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: us-east-1
 
-    
+
