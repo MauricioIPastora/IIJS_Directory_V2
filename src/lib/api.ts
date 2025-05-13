@@ -14,6 +14,20 @@ const handleResponse = async (response: Response) => {
   return response.json();
 };
 
+const standardizePhoneForDB = (phoneNumber: string): string => {
+  if (!phoneNumber) return "";
+  // strip all non-digit characters except leading +
+  let standardized = phoneNumber.trim();
+
+  if (standardized.startsWith("+")) {
+    standardized = '+' + standardized.substring(1).replace(/\D/g, "");
+  } else {
+    standardized = '+1' + standardized.replace(/\D/g, "");
+}
+
+  return standardized;
+};
+
 // Contacts API
 export async function fetchContacts() {
   const response = await fetch(`${API_BASE_URL}/view`);
@@ -29,7 +43,7 @@ export async function createContact(contact: Omit<Contact, "id">) {
   const transformedContact = {
     full_name: contact.fullName,
     email: contact.email,
-    phone_number: contact.phone,
+    phone_number: standardizePhoneForDB(contact.phone),
     organization: contact.organization,
     org_type: contact.organizationType,
     linkedin: contact.linkedin || '',

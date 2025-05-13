@@ -1,6 +1,24 @@
 from flask import request, jsonify
 from models import db, contact_list, organizations, organization_types
 
+def standardize_phone_number(phone):
+    if not phone:
+        return None
+    
+    display_phone = phone
+
+    # strip all none digit characters except + for country code
+    phone = phone.strip()
+    if phone.startswith("+"):
+        standardized = '+' + ''.join([c for c in phone[1:] if c.isdigit()])
+    else:
+        standardized = '+1' + ''.join([c for c in phone if c.isdigit()])
+
+    if len(standardized) == 3:
+        return None
+    
+    return standardized
+
 def init_routes(app):
     @app.route("/")
     def home():
@@ -9,6 +27,13 @@ def init_routes(app):
     @app.route("/insert", methods=["POST"])
     def insert():
         data = request.json
+
+        # store original phone number for display
+        original_phone = None
+        if "phone_number" in data:
+            original_phone = data["phone_number"]
+            data["phone_number"] = standardize_phone_number(data["phone_number"])
+
         contact = contact_list(**data)
         db.session.add(contact)
         db.session.commit()
