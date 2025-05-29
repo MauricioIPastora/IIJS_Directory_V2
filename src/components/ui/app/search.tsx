@@ -34,10 +34,20 @@ export function TableSearch({ onSearch }: TableSearchProps) {
     onSearch(value);
   };
 
-  //function to handle key down events in the search input
-
+  // Function to handle key down events in the search input
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
+      e.preventDefault(); // Prevent form submission or other default behavior
+      onSearch(query);
+      setOpen(false);
+    }
+  };
+
+  // Function to handle key down events in the CommandInput (inside dialog)
+  const handleCommandKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // Prevent default command behavior
+      e.stopPropagation(); // Stop event from bubbling up
       onSearch(query);
       setOpen(false);
     }
@@ -62,19 +72,40 @@ export function TableSearch({ onSearch }: TableSearchProps) {
           className="!pl-1 !py-1 !bg-white"
           placeholder="Search contacts..."
           value={query}
-          onValueChange={handleSearch}
-          onKeyDown={handleKeyDown}
+          onValueChange={(value) => {
+            setQuery(value);
+            handleSearch(value);
+          }}
+          onKeyDown={handleCommandKeyDown}
         /></div>
         <CommandList className="!pl-3 !py-1 bg-white">
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Suggestions" className="bg-white">
-            <CommandItem onSelect={() => handleSearch("OAS")} className="hover:bg-gray-100">
+            <CommandItem 
+              onSelect={() => {
+                handleSearch("OAS");
+                setOpen(false);
+              }} 
+              className="hover:bg-gray-100"
+            >
               <span>Search for OAS contacts</span>
             </CommandItem>
-            <CommandItem onSelect={() => handleSearch("Embassy")} className="hover:bg-gray-100">
+            <CommandItem 
+              onSelect={() => {
+                handleSearch("Embassy");
+                setOpen(false);
+              }} 
+              className="hover:bg-gray-100"
+            >
               <span>Search for Embassy contacts</span>
             </CommandItem>
-            <CommandItem onSelect={() => handleSearch("Private")} className="hover:bg-gray-100">
+            <CommandItem 
+              onSelect={() => {
+                handleSearch("Private");
+                setOpen(false);
+              }} 
+              className="hover:bg-gray-100"
+            >
               <span>Search for Private Organization contacts</span>
             </CommandItem>
           </CommandGroup>
