@@ -2,7 +2,12 @@
 import type { Contact } from "./types";
 
 // Use environment variable with fallback
-const API_BASE_URL =  import.meta.env.VITE_API_URL || "https://api.iijs-directory.app";
+const API_BASE_URL =  import.meta.env.VITE_API_URL;
+
+if (!API_BASE_URL) {
+  throw new Error("VITE_API_URL environment variable is not set");
+}
+
 console.log(`API_BASE_URL: ${API_BASE_URL}`); // Debugging line to check the API URL
 
 // To handle API errors

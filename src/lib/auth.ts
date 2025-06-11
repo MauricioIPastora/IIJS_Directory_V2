@@ -11,6 +11,10 @@ const poolData = {
   ClientId: import.meta.env.VITE_AWS_USER_POOL_WEB_CLIENT_ID
 };
 
+if (!poolData.UserPoolId || !poolData.ClientId) {
+  throw new Error("VITE_AWS_USER_POOL_ID and VITE_AWS_USER_POOL_WEB_CLIENT_ID environment variables must be set");
+}
+
 const userPool = new CognitoUserPool(poolData);
 
 export const getCurrentUser = () => {
