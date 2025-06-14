@@ -5,19 +5,22 @@ def standardize_phone_number(phone):
     if not phone:
         return None
     
-    display_phone = phone
-
-    # strip all none digit characters except + for country code
+    # Strip whitespace and normalize the input
     phone = phone.strip()
+    
+    # If starts with +, preserve country code and remove all non-digits after +
     if phone.startswith("+"):
         standardized = '+' + ''.join([c for c in phone[1:] if c.isdigit()])
     else:
+        # Default to +1 (US) and remove all non-digits
         standardized = '+1' + ''.join([c for c in phone if c.isdigit()])
-
-    if len(standardized) == 3:
+    
+    # Return None if no actual digits (just + sign)
+    if len(standardized) <= 1:
         return None
     
     return standardized
+
 
 def init_routes(app):
     @app.route("/")
@@ -28,10 +31,8 @@ def init_routes(app):
     def insert():
         data = request.json
 
-        # store original phone number for display
-        original_phone = None
+        # standardize phone number for consistent storage
         if "phone_number" in data:
-            original_phone = data["phone_number"]
             data["phone_number"] = standardize_phone_number(data["phone_number"])
 
         contact = contact_list(**data)
@@ -78,6 +79,10 @@ def init_routes(app):
         contact = contact_list.query.get(id)
         if not contact:
             return jsonify({"error": "Contact not found!"}), 404
+        
+        # Standardize phone number if provided in update data
+        if "phone_number" in data:
+            data["phone_number"] = standardize_phone_number(data["phone_number"])
         
         for key, value in data.items():
             setattr(contact, key, value)

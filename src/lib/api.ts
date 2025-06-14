@@ -33,10 +33,37 @@ const standardizePhoneForDB = (phoneNumber: string): string => {
   return standardized;
 };
 
+const formatPhoneForDisplay = (standardizedPhone: string): string => {
+  if (!standardizedPhone) return "";
+  
+  // Extract country code and number
+  if (standardizedPhone.startsWith("+1") && standardizedPhone.length === 12) {
+    // US number: +17039397628 -> (703) 939-7628
+    const number = standardizedPhone.substring(2);
+    return `(${number.substring(0, 3)}) ${number.substring(3, 6)}-${number.substring(6)}`;
+  } else if (standardizedPhone.startsWith("+")) {
+    // International number: +3444448888 -> +34 4444 8888
+    const countryCode = standardizedPhone.substring(0, 3);
+    const number = standardizedPhone.substring(3);
+    const midPoint = Math.ceil(number.length / 2);
+    return `${countryCode} ${number.substring(0, midPoint)} ${number.substring(midPoint)}`;
+  }
+  
+  return standardizedPhone;
+};
+
 // Contacts API
 export async function fetchContacts() {
   const response = await fetch(`${API_BASE_URL}/view`);
-  return handleResponse(response);
+  const contacts = await handleResponse(response);
+  
+  // Transform phone numbers for display
+  return contacts.map((contact: any) => ({
+    ...contact,
+    phone: formatPhoneForDisplay(contact.phone_number),
+    fullName: contact.full_name,
+    organizationType: contact.org_type
+  }));
 }
 
 export async function fetchContact(id: string) {
@@ -70,7 +97,7 @@ export async function updateContact(id: string, contact: Omit<Contact, "id">) {
   const transformedContact = {
     full_name: contact.fullName,
     email: contact.email,
-    phone_number: contact.phone,
+    phone_number: standardizePhoneForDB(contact.phone),
     organization: contact.organization,
     org_type: contact.organizationType,
     linkedin: contact.linkedin || '',
@@ -85,7 +112,7 @@ export async function updateContact(id: string, contact: Omit<Contact, "id">) {
     },
     body: JSON.stringify(transformedContact),
   });
-  console.log(`Contact edited in api: ${response.status}`); // Debugging line to check the response status
+  console.log(`Contact edited in api: ${response.status}`);
   return handleResponse(response);
 }
 
