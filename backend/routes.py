@@ -33,7 +33,20 @@ def init_routes(app):
 
         # standardize phone number for consistent storage
         if "phone_number" in data:
-            data["phone_number"] = standardize_phone_number(data["phone_number"])
+            phones = data["phone_number"]
+            if isinstance(phones, list):
+                standardized = [standardize_phone_number(p) for p in phones if standardize_phone_number(p)]
+                data["phone_number"] = ", ".join(standardized)
+            else:
+                data["phone_number"] = standardize_phone_number(phones)
+
+        if "email" in data:
+            emails = data["email"]
+            if isinstance(emails, list):
+                trimmed = [e.strip() for e in emails if e.strip()]
+                data["email"] = ", ".join(trimmed)
+            else:
+                data["email"] = emails.strip()
 
         contact = contact_list(**data)
         db.session.add(contact)
@@ -82,10 +95,20 @@ def init_routes(app):
         
         # Standardize phone number if provided in update data
         if "phone_number" in data:
-            data["phone_number"] = standardize_phone_number(data["phone_number"])
-        
-        for key, value in data.items():
-            setattr(contact, key, value)
+            phones = data["phone_number"]
+            if isinstance(phones, list):
+                standardized = [standardize_phone_number(p) for p in phones if standardize_phone_number(p)]
+                contact.phone_number = ", ".join(standardized)
+            else:
+                contact.phone_number = standardize_phone_number(phones)
+
+        if "email" in data:
+            emails = data["email"]
+            if isinstance(emails, list):
+                trimmed = [e.strip() for e in emails if e.strip()]
+                contact.email = ", ".join(trimmed)
+            else:
+                contact.email = emails.strip()
 
         db.session.commit()
         return jsonify({"message": "Contact updated successfully"})

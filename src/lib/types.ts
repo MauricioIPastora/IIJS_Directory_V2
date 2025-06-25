@@ -1,8 +1,8 @@
 export interface Contact {
   id: string;
   fullName: string;
-  email: string;
-  phone: string;
+  email: string | string[];
+  phone: string | string[];
   organization: string;
   organizationType: string;
   linkedin?: string;

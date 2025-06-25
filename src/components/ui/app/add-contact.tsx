@@ -17,6 +17,7 @@ import {
   SelectValue,
 } from "../select";
 import { Contact, Organization, OrganizationType } from "@/lib/types";
+import { Plus } from "lucide-react";
 
 interface AddContactDialogProps {
   isOpen: boolean;
@@ -49,8 +50,18 @@ export function AddContactDialog({
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const [emailList, setEmailList] = useState<string[]>([""]);
+  const [phoneList, setPhoneList] = useState<string[]>([""]);
+  
   useEffect(() => {
+    const cleanList = (value: string | undefined | null): string[] => {
+      if (!value) return [""];
+      return value
+        .replace(/^\{|\}$/g, "") // remove leading/trailing braces
+        .split(",")
+        .map((v) => v.trim());
+    };
+  
     if (initialData) {
       setFormData({
         fullName: initialData.fullName,
@@ -62,8 +73,14 @@ export function AddContactDialog({
         instagram: initialData.instagram || "",
         x: initialData.x || "",
       });
+  
+      setEmailList(
+        cleanList(Array.isArray(initialData.email) ? initialData.email.join(",") : initialData.email)
+      );
+      setPhoneList(
+        cleanList(Array.isArray(initialData.phone) ? initialData.phone.join(",") : initialData.phone)
+      );
     } else {
-      // Reset form when opening for a new contact
       setFormData({
         fullName: "",
         email: "",
@@ -74,8 +91,12 @@ export function AddContactDialog({
         instagram: "",
         x: "",
       });
+      setEmailList([""]);
+      setPhoneList([""]);
     }
   }, [initialData]);
+  
+  
 
   const handleChange = (field: keyof Omit<Contact, "id">, value: string) => {
     setFormData((prev) => ({
@@ -84,18 +105,27 @@ export function AddContactDialog({
     }));
   };
 
-  const handleSubmit = async () => {
+  async function handleSubmit() {
     setIsSubmitting(true);
+
+    const cleanedEmails = emailList.map((e) => e.trim()).filter((e) => e);
+    const cleanedPhones = phoneList.map((p) => p.trim()).filter((p) => p);
+
+    const submitData = {
+      ...formData,
+      email: cleanedEmails.length <= 1 ? (cleanedEmails[0] || "") : cleanedEmails, // MODIFIED
+      phone: cleanedPhones.length <= 1 ? (cleanedPhones[0] || "") : cleanedPhones, // MODIFIED
+    };
+
     try {
-      await onAddContact(formData);
+      await onAddContact(submitData);
       onClose();
     } catch (error) {
       console.error("Error submitting contact:", error);
-      // Add error handling Ui here
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -108,39 +138,73 @@ export function AddContactDialog({
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2 !pl-2">
-              <Label htmlFor="fullName" className="!p-2 !font-semibold">Full Name</Label>
-              <Input
-                id="fullName"
-                value={formData.fullName}
-                onChange={(e) => handleChange("fullName", e.target.value)}
-                placeholder="John Doe"
-                className="!p-1 !border-2"
-              />
-            </div>
-            <div className="space-y-2 !pr-2">
-              <Label htmlFor="email" className="!p-2 !font-semibold">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => handleChange("email", e.target.value)}
-                placeholder="john@example.com"
-                className="!p-1 !border-2"
-              />
+              <div className="space-y-2 !pl-2">
+                <Label htmlFor="fullName" className="!p-2 !font-semibold">
+                  Full Name
+                </Label>
+                <Input
+                  id="fullName"
+                  value={formData.fullName}
+                  onChange={(e) => handleChange("fullName", e.target.value)}
+                  placeholder="John Doe"
+                  className="!p-1 !border-2"
+                />
+              </div>
+              <div className="space-y-2 !pr-2">
+                <Label className="!p-2 !font-semibold">Email</Label>
+                {emailList.map((email, idx) => (
+                  <div key={idx} className="flex gap-2 mb-2">
+                    <Input
+                      type="email"
+                      value={email}
+                      onChange={(e) => {
+                        const updated = [...emailList];
+                        updated[idx] = e.target.value;
+                        setEmailList(updated);
+                      }}
+                      placeholder="john@example.com"
+                    />
+                    {idx === emailList.length - 1 && (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => setEmailList([...emailList, ""])}
+                      >
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2 !pl-2">
-              <Label htmlFor="phone" className="!p-2 !font-semibold">Phone Number</Label>
-              <Input
-                id="phone"
-                value={formData.phone}
-                onChange={(e) => handleChange("phone", e.target.value)}
-                placeholder="+1 (555) 123-4567"
-                className="!p-1 !border-2"
-              />
-            </div>
+            <Label className="!p-2 font-semibold">Phone</Label>
+        {phoneList.map((phone, idx) => (
+          <div key={idx} className="flex gap-2 mb-2">
+            <Input
+              value={phone}
+              onChange={(e) => {
+                const updated = [...phoneList];
+                updated[idx] = e.target.value;
+                setPhoneList(updated);
+              }}
+              placeholder="+1 (555) 123-4567"
+            />
+            {idx === phoneList.length - 1 && (
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setPhoneList([...phoneList, ""])}
+              >
+                <Plus className="h-4 w-4" />
+              </Button>
+            )}  
+          </div>
+        ))}
+        </div>
             <div className="space-y-2 !pr-2">
               <Label htmlFor="organization" className="!p-2 !font-semibold">Organization</Label>
               <Select
