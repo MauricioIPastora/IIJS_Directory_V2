@@ -16,13 +16,25 @@ const fetcher = async (url: string) => {
 };
 
 // Custom hook for managing contacts data with SWR
-export function useContacts() {
-  // Fetch data using SWR
+export function useContacts(filters?: Record<string, string | undefined>) {
+  // Build query string from filters (including search query)
+  const queryString = filters
+    ? "?" + new URLSearchParams(
+        Object.entries(filters)
+          .filter(([_, v]) => v)
+          .map(([k, v]) => [k, v!])
+      ).toString()
+    : "";
+
+  // ➕ STEP 2: Update SWR call to include dynamic endpoint
   const {
     data: contactsData,
     error: contactsError,
     isLoading: isContactsLoading,
-  } = useSWR(`${API_BASE_URL}/view`, fetcher);
+  } = useSWR(
+    `${API_BASE_URL}/search${queryString}`,
+    fetcher
+  );
 
   const {
     data: orgsData,
