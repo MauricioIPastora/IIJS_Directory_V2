@@ -1,5 +1,12 @@
 from flask import request, jsonify
 from models import db, contact_list, organizations, organization_types
+from sqlalchemy import or_
+
+field_keys = [
+    "full_name", "email", "phone_number",
+    "linkedin", "instagram", "organization",
+    "org_type", "twitter"
+]
 
 def standardize_phone_number(phone):
     if not phone:
@@ -70,6 +77,17 @@ def init_routes(app):
             if value:
                 if field in ["full_name", "email", "phone_number", "linkedin", "instagram", "email", "organization", "org_type", "twitter"]:
                     query = query.filter(getattr(contact_list, field).ilike(f"%{value}%"))
+
+        kw = query_params.get("q")
+        if kw:
+            il = f"%{kw}%"
+            query = query.filter(
+            or_(*[
+                getattr(contact_list, f).ilike(il)
+                for f in field_keys
+            ])
+        )
+
         results = query.all()
         return jsonify([{
             "id": c.id, "full_name": c.full_name, "phone_number": c.phone_number,

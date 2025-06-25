@@ -64,7 +64,11 @@ export function App() {
       result = result.filter((contact) => {
         return Object.entries(activeFilters).every(([key, value]) => {
           if (!value) return true;
-          const fieldValue = contact[key as keyof typeof contact]?.toLowerCase() || "";
+          const rawValue = contact[key as keyof typeof contact];
+          const fieldValue =
+            Array.isArray(rawValue)
+              ? rawValue.join(", ").toLowerCase()
+              : (rawValue?.toLowerCase() || "");
           return fieldValue.includes(value.toLowerCase());
         });
       });
@@ -82,9 +86,12 @@ export function App() {
           contact.instagram,
           contact.x,
         ];
-        return searchableFields.some((field) =>
-          field?.toLowerCase().includes(searchQuery.toLowerCase())
-        );
+        return searchableFields.some((field) => {
+          if (!field) return false;
+          return Array.isArray(field)
+            ? field.join(", ").toLowerCase().includes(searchQuery.toLowerCase())
+            : field.toLowerCase().includes(searchQuery.toLowerCase());
+        });
       });
     }
     return result;
