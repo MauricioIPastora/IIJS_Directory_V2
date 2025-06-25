@@ -75,7 +75,9 @@ export async function createContact(contact: Omit<Contact, "id">) {
   const transformedContact = {
     full_name: contact.fullName,
     email: contact.email,
-    phone_number: standardizePhoneForDB(contact.phone),
+    phone_number: Array.isArray(contact.phone)
+  ? contact.phone.map((num) => standardizePhoneForDB(num))
+  : standardizePhoneForDB(contact.phone),
     organization: contact.organization,
     org_type: contact.organizationType,
     linkedin: contact.linkedin || '',
@@ -97,7 +99,9 @@ export async function updateContact(id: string, contact: Omit<Contact, "id">) {
   const transformedContact = {
     full_name: contact.fullName,
     email: contact.email,
-    phone_number: standardizePhoneForDB(contact.phone),
+    phone_number: Array.isArray(contact.phone)
+  ? contact.phone.map((num) => standardizePhoneForDB(num))
+  : standardizePhoneForDB(contact.phone),
     organization: contact.organization,
     org_type: contact.organizationType,
     linkedin: contact.linkedin || '',

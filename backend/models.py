@@ -5,7 +5,7 @@ db = SQLAlchemy()
 class contact_list(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     full_name = db.Column(db.String(255), nullable=False)
-    phone_number = db.Column(db.String(50))
+    phone_number = db.Column(db.String(255))
     linkedin = db.Column(db.String(255))
     instagram = db.Column(db.String(255))
     email = db.Column(db.String(255))
