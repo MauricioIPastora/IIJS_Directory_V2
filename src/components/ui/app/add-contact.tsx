@@ -138,7 +138,7 @@ export function AddContactDialog({
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2 !pl-2">
-              <div className="space-y-2 !pl-2">
+              <div className="space-y-2 pl-2">
                 <Label htmlFor="fullName" className="!p-2 !font-semibold">
                   Full Name
                 </Label>
@@ -152,29 +152,32 @@ export function AddContactDialog({
               </div>
               <div className="space-y-2 !pr-2">
                 <Label className="!p-2 !font-semibold">Email</Label>
-                {emailList.map((email, idx) => (
-                  <div key={idx} className="flex gap-2 mb-2">
-                    <Input
-                      type="email"
-                      value={email}
-                      onChange={(e) => {
-                        const updated = [...emailList];
-                        updated[idx] = e.target.value;
-                        setEmailList(updated);
-                      }}
-                      placeholder="john@example.com"
-                    />
-                    {idx === emailList.length - 1 && (
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={() => setEmailList([...emailList, ""])}
-                      >
-                        <Plus className="h-4 w-4" />
-                      </Button>
-                    )}
-                  </div>
-                ))}
+                <div className="!space-y-3">
+                  {emailList.map((email, idx) => (
+                    <div key={idx} className="flex gap-2">
+                      <Input
+                        type="email"
+                        value={email}
+                        onChange={(e) => {
+                          const updated = [...emailList];
+                          updated[idx] = e.target.value;
+                          setEmailList(updated);
+                        }}
+                        placeholder="john@example.com"
+                        className="!p-1"
+                      />
+                      {idx === emailList.length - 1 && (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => setEmailList([...emailList, ""])}
+                        >
+                          <Plus className="h-4 w-4" />
+                        </Button>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -182,28 +185,31 @@ export function AddContactDialog({
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2 !pl-2">
             <Label className="!p-2 font-semibold">Phone</Label>
-        {phoneList.map((phone, idx) => (
-          <div key={idx} className="flex gap-2 mb-2">
-            <Input
-              value={phone}
-              onChange={(e) => {
-                const updated = [...phoneList];
-                updated[idx] = e.target.value;
-                setPhoneList(updated);
-              }}
-              placeholder="+1 (555) 123-4567"
-            />
-            {idx === phoneList.length - 1 && (
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setPhoneList([...phoneList, ""])}
-              >
-                <Plus className="h-4 w-4" />
-              </Button>
-            )}  
-          </div>
-        ))}
+            <div className="!space-y-3">
+              {phoneList.map((phone, idx) => (
+                <div key={idx} className="flex gap-2">
+                  <Input
+                    value={phone}
+                    onChange={(e) => {
+                      const updated = [...phoneList];
+                      updated[idx] = e.target.value;
+                      setPhoneList(updated);
+                    }}
+                    placeholder="+1 (555) 123-4567"
+                    className="!p-1"
+                  />
+                  {idx === phoneList.length - 1 && (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => setPhoneList([...phoneList, ""])}
+                    >
+                      <Plus className="h-4 w-4" />
+                    </Button>
+                  )}  
+                </div>
+              ))}
+            </div>
         </div>
             <div className="space-y-2 !pr-2">
               <Label htmlFor="organization" className="!p-2 !font-semibold">Organization</Label>
