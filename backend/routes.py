@@ -28,6 +28,12 @@ def standardize_phone_number(phone):
     
     return standardized
 
+def to_list(val):
+    if isinstance(val, list):
+        return val
+    if isinstance(val, str):
+        return [v.strip() for v in val.split(",") if v.strip()]
+    return []
 
 def init_routes(app):
     @app.route("/")
@@ -54,6 +60,9 @@ def init_routes(app):
                 data["email"] = ", ".join(trimmed)
             else:
                 data["email"] = emails.strip()
+
+        data["phone_number"] = to_list(data.get("phone_number", []))
+        data["email"] = to_list(data.get("email", []))
 
         contact = contact_list(**data)
         db.session.add(contact)
@@ -127,6 +136,9 @@ def init_routes(app):
                 contact.email = ", ".join(trimmed)
             else:
                 contact.email = emails.strip()
+
+        data["phone_number"] = to_list(data.get("phone_number", []))
+        data["email"] = to_list(data.get("email", []))
 
         db.session.commit()
         return jsonify({"message": "Contact updated successfully"})

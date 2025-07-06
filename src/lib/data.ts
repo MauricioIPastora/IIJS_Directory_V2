@@ -68,14 +68,20 @@ const organizationTypes = typesData || [];
     return backendContacts.map(contact => ({
       id: contact.id.toString(),
       fullName: contact.full_name,
-      email: contact.email || '',
-      phone: contact.phone_number || '',
+      email: Array.isArray(contact.email) ? contact.email : parseField(contact.email),
+      phone: Array.isArray(contact.phone_number) ? contact.phone_number : parseField(contact.phone_number),
       organization: contact.organization || '',
       organizationType: contact.org_type || '',
       linkedin: contact.linkedin || '',
       instagram: contact.instagram || '',
       x: contact.twitter || '', //backend uses 'twitter' field
     }));
+  }
+
+  function parseField(val: string | string[]): string[] {
+    if (Array.isArray(val)) return val;
+    if (!val) return [];
+    return val.replace(/^\{|\}$/g, "").split(",").map((v) => v.trim()).filter(Boolean);
   }
 
   // Add a new contact

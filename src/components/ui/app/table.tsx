@@ -162,8 +162,12 @@ export function ContactsTable({
             contacts.map((contact) => (
               <TableRow key={contact.id}>
                 <TableCell className="font-medium">{contact.fullName}</TableCell>
-                <TableCell className="hidden md:table-cell">{contact.email}</TableCell>
-                <TableCell className="hidden md:table-cell">{contact.phone}</TableCell>
+                <TableCell className="hidden md:table-cell">
+                  {Array.isArray(contact.email) ? contact.email.join(", ") : contact.email}
+                </TableCell>
+                <TableCell className="hidden md:table-cell">
+                  {Array.isArray(contact.phone) ? contact.phone.join(", ") : contact.phone}
+                </TableCell>
                 <TableCell className="hidden lg:table-cell">{contact.organization}</TableCell>
                 <TableCell className="hidden lg:table-cell">{contact.organizationType}</TableCell>
                 <TableCell className="hidden xl:table-cell">
