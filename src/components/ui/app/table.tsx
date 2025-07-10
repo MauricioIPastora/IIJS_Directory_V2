@@ -147,6 +147,8 @@ export function ContactsTable({
             <TableHead className="hidden md:table-cell !font-semibold">Phone</TableHead>
             <TableHead className="hidden lg:table-cell !font-semibold">Organization</TableHead>
             <TableHead className="hidden lg:table-cell !font-semibold">Org. Type</TableHead>
+            <TableHead className="hidden xl:table-cell !font-semibold">Country</TableHead>
+            <TableHead className="hidden xl:table-cell !font-semibold">Sector</TableHead>
             <TableHead className="hidden xl:table-cell !font-semibold">Social</TableHead>
             <TableHead className="text-right !pr-10 !font-semibold">Actions</TableHead>
           </TableRow>
@@ -154,7 +156,7 @@ export function ContactsTable({
         <TableBody>
           {contacts.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
+              <TableCell colSpan={9} className="text-center py-8 text-muted-foreground">
                 No contacts found. Add a new contact to get started.
               </TableCell>
             </TableRow>
@@ -170,6 +172,8 @@ export function ContactsTable({
                 </TableCell>
                 <TableCell className="hidden lg:table-cell">{contact.organization}</TableCell>
                 <TableCell className="hidden lg:table-cell">{contact.organizationType}</TableCell>
+                <TableCell className="hidden xl:table-cell">{contact.country}</TableCell>
+                <TableCell className="hidden xl:table-cell">{contact.sector}</TableCell>
                 <TableCell className="hidden xl:table-cell">
                   <div className="flex space-x-2 !gap-1">
                     {contact.linkedin && (<a href={contact.linkedin} target="_blank" rel="noopener noreferrer"><Linkedin className="h-4 w-4" /></a>)}
@@ -229,6 +233,7 @@ export function ContactsTable({
           onAddContact={(updatedContact) => updateContact(editContact.id, updatedContact)}
           initialData={editContact}
           isEditing={true}
+          sectors={[]}
         />
       )}
 

@@ -174,3 +174,18 @@ export async function deleteOrganizationType(id: string) {
   });
   return handleResponse(response);
 }
+
+export async function createSector(name: string) {
+  const response = await fetch(`${API_BASE_URL}/add_sector`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name }),
+  });
+  return handleResponse(response);
+}
+
+export async function deleteSector(id: string) {
+  const response = await fetch(`${API_BASE_URL}/delete_sector/${id}`, {
+    method: "DELETE" });
+  return handleResponse(response);
+}

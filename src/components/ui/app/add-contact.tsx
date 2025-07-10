@@ -16,8 +16,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../select";
-import { Contact, Organization, OrganizationType } from "@/lib/types";
+import { Contact, Organization, OrganizationType, Sector } from "@/lib/types";
 import { Plus } from "lucide-react";
+import { COUNTRIES } from "@/lib/data";
 
 interface AddContactDialogProps {
   isOpen: boolean;
@@ -27,6 +28,7 @@ interface AddContactDialogProps {
   onAddContact: (contact: Omit<Contact, "id">) => void;
   initialData?: Contact;
   isEditing?: boolean;
+  sectors: Sector[];
 }
 
 export function AddContactDialog({
@@ -37,6 +39,7 @@ export function AddContactDialog({
   onAddContact,
   initialData,
   isEditing = false,
+  sectors = [],
 }: AddContactDialogProps) {
   const [formData, setFormData] = useState<Omit<Contact, "id">>({
     fullName: "",
@@ -47,6 +50,8 @@ export function AddContactDialog({
     linkedin: "",
     instagram: "",
     x: "",
+    country: "",
+    sector: "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -72,6 +77,8 @@ export function AddContactDialog({
         linkedin: initialData.linkedin || "",
         instagram: initialData.instagram || "",
         x: initialData.x || "",
+        country: initialData.country || "",
+        sector: initialData.sector || "",
       });
   
       setEmailList(
@@ -90,6 +97,8 @@ export function AddContactDialog({
         linkedin: "",
         instagram: "",
         x: "",
+        country: "",
+        sector: "",
       });
       setEmailList([""]);
       setPhoneList([""]);
@@ -253,6 +262,45 @@ export function AddContactDialog({
               </Select>
             </div>
           </div>
+
+          <div className="space-y-2 !px-2">
+            <Label htmlFor="country" className="!p-2 !font-semibold">Country</Label>
+            <Select
+              value={formData.country}
+              onValueChange={(value) => handleChange("country", value)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select country" />
+              </SelectTrigger>
+              <SelectContent className="!bg-white !p-1 max-h-60 overflow-y-auto">
+                {COUNTRIES.map((country) => (
+                  <SelectItem key={country} value={country} className="hover:!cursor-pointer hover:!bg-gray-200">
+                    {country}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2 !px-2">
+            <Label htmlFor="sector" className="!p-2 !font-semibold">Sector</Label>
+            <Select
+              value={formData.sector}
+              onValueChange={(value) => handleChange("sector", value)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select sector" />
+              </SelectTrigger>
+              <SelectContent className="!bg-white !p-1">
+                {sectors.map((sector) => (
+                  <SelectItem key={sector.id} value={sector.name} className="hover:!cursor-pointer hover:!bg-gray-200">
+                    {sector.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            </div>
+
 
           <div className="space-y-2 !px-2">
             <Label className="!p-2 !font-semibold">Social Media</Label>

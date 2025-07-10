@@ -28,6 +28,9 @@ export function App() {
     removeOrganization,
     addOrganizationType,
     removeOrganizationType,
+    sectors,
+    addSector,
+    removeSector,
     isLoading: dataLoading,
     error,
   } = useContacts();
@@ -224,6 +227,12 @@ export function App() {
           onAdd={addOrganizationType}
           onRemove={removeOrganizationType}
         />
+        <OrganizationManager
+          title="sectors"
+          items={sectors}
+          onAdd={addSector}
+          onRemove={removeSector}
+          />
       </div>
       <div className="!px-2">
         <ContactsTable
@@ -237,6 +246,7 @@ export function App() {
         onClose={() => setIsAddContactOpen(false)}
         organizations={organizations}
         organizationTypes={organizationTypes}
+        sectors={sectors}
         onAddContact={addContact}
       />
       <FilterDialog

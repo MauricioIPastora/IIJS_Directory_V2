@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from models import db, contact_list, organizations, organization_types
+from models import db, contact_list, organizations, organization_types, sectors
 from sqlalchemy import or_
 
 field_keys = [
@@ -186,3 +186,30 @@ def init_routes(app):
             db.session.commit()
             return jsonify({"message": "Organization type deleted successfully!"})
         return jsonify({"error": "Organization type not found!"}), 404
+
+    @app.route('/get_sectors', methods=['GET'])
+    def get_sectors():
+        all_sectors = sectors.query.all()
+        return jsonify([{'id': s.id, 'name': s.name} for s in all_sectors])
+
+    @app.route('/add_sector', methods=['POST'])
+    def add_sector():
+        data = request.get_json()
+        name = data.get('name')
+        if not name:
+            return jsonify({'error': 'Name is required'}), 400
+        if sectors.query.filter_by(name=name).first():
+            return jsonify({'error': 'Sector already exists'}), 400
+        new_sector = sectors(name=name)
+        db.session.add(new_sector)
+        db.session.commit()
+        return jsonify({'id': new_sector.id, 'name': new_sector.name}), 201
+
+    @app.route('/delete_sector/<int:id>', methods=['DELETE'])
+    def delete_sector(id):
+        sector = sectors.query.get(id)
+        if not sector:
+            return jsonify({'error': 'Sector not found'}), 404
+        db.session.delete(sector)
+        db.session.commit()
+        return jsonify({'result': 'success'})

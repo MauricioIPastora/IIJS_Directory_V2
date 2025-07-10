@@ -8,6 +8,8 @@ export interface Contact {
   linkedin?: string;
   instagram?: string;
   x?: string;
+  country: string;
+  sector: string;
 }
 
 export interface Organization {
@@ -16,6 +18,11 @@ export interface Organization {
 }
 
 export interface OrganizationType {
+  id: string;
+  name: string;
+}
+
+export interface Sector {
   id: string;
   name: string;
 }

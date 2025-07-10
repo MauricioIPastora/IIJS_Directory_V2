@@ -3,6 +3,30 @@ import useSWR, { mutate } from "swr";
 import type { Contact } from "./types";
 import * as api from "./api";
 
+// List of all countries (shortened for brevity, expand as needed)
+export const COUNTRIES = [
+  "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan",
+  "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia",
+  "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cabo Verde", "Cambodia", "Cameroon",
+  "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo", "Costa Rica", "Croatia",
+  "Cuba", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador",
+  "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Fiji", "Finland", "France", "Gabon", "Gambia",
+  "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana", "Haiti",
+  "Honduras", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy",
+  "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan", "Laos", "Latvia",
+  "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Madagascar", "Malawi", "Malaysia",
+  "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco",
+  "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand",
+  "Nicaragua", "Niger", "Nigeria", "North Korea", "North Macedonia", "Norway", "Oman", "Pakistan", "Palau", "Palestine",
+  "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia",
+  "Rwanda", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia",
+  "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan",
+  "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania",
+  "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu", "Uganda",
+  "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela", "Vietnam",
+  "Yemen", "Zambia", "Zimbabwe"
+];
+
 // API base URL from env
 export const API_BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -48,10 +72,17 @@ export function useContacts(filters?: Record<string, string | undefined>) {
     isLoading: isTypesLoading,
   } = useSWR(`${API_BASE_URL}/get_organization_types`, fetcher);
 
+  const {
+    data: sectorsData,
+    error: sectorsError,
+    isLoading: isSectorsLoading,
+  } = useSWR(`${API_BASE_URL}/get_sectors`, fetcher);
+
 // Transform backend data format to match frontend expected format
 const contacts = contactsData ? transformContacts(contactsData) : [];
 const organizations = orgsData || [];
 const organizationTypes = typesData || [];
+const sectors = sectorsData || [];
 
   // Local state for filtered contacts
   const [filteredContacts, setFilteredContacts] = useState<Contact[]>([]);
@@ -75,6 +106,8 @@ const organizationTypes = typesData || [];
       linkedin: contact.linkedin || '',
       instagram: contact.instagram || '',
       x: contact.twitter || '', //backend uses 'twitter' field
+      country: contact.country || '',
+      sector: contact.sector || '',
     }));
   }
 
@@ -178,14 +211,24 @@ const organizationTypes = typesData || [];
     }
   };
 
+  const addSector = async (name: string) => {
+    await api.createSector(name);
+    mutate(`${API_BASE_URL}/get_sectors`);
+  };
+  const removeSector = async (id: string) => {
+    await api.deleteSector(id);
+    mutate(`${API_BASE_URL}/get_sectors`);
+  };
+
   return {
     contacts,
     filteredContacts,
     setFilteredContacts,
     organizations,
     organizationTypes,
-    isLoading: isContactsLoading || isOrgsLoading || isTypesLoading,
-    error: contactsError || orgsError || typesError,
+    sectors,
+    isLoading: isContactsLoading || isOrgsLoading || isTypesLoading || isSectorsLoading,
+    error: contactsError || orgsError || typesError || sectorsError,
     addContact,
     updateContact,
     deleteContact,
@@ -193,5 +236,7 @@ const organizationTypes = typesData || [];
     removeOrganization,
     addOrganizationType,
     removeOrganizationType,
+    addSector,
+    removeSector,
   };
 }
