@@ -114,7 +114,14 @@ const sectors = sectorsData || [];
   function parseField(val: string | string[]): string[] {
     if (Array.isArray(val)) return val;
     if (!val) return [];
-    return val.replace(/^\{|\}$/g, "").split(",").map((v) => v.trim()).filter(Boolean);
+    
+    // Handle PostgreSQL array format: {item1,item2,item3}
+    if (val.startsWith('{') && val.endsWith('}')) {
+      return val.slice(1, -1).split(',').map((v) => v.trim()).filter(Boolean);
+    }
+    
+    // Handle comma-separated string
+    return val.split(",").map((v) => v.trim()).filter(Boolean);
   }
 
   // Add a new contact
