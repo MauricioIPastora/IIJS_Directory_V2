@@ -214,7 +214,7 @@ export function App() {
           </Button>
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <OrganizationManager
           title="Organizations"
           items={organizations}
@@ -228,11 +228,11 @@ export function App() {
           onRemove={removeOrganizationType}
         />
         <OrganizationManager
-          title="sectors"
+          title="Sectors"
           items={sectors}
           onAdd={addSector}
           onRemove={removeSector}
-          />
+        />
       </div>
       <div className="!px-2">
         <ContactsTable

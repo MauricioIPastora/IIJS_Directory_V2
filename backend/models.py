@@ -13,6 +13,8 @@ class contact_list(db.Model):
     organization = db.Column(db.String(255))
     org_type = db.Column(db.String(255))
     twitter = db.Column(db.String(255))
+    country = db.Column(db.String(255))
+    sector = db.Column(db.String(255))
 
     # Add indexes for searchable fields to improve query performance
     __table_args__ = (
@@ -25,6 +27,8 @@ class contact_list(db.Model):
         #GIN indexes for array fields
         db.Index('gin_phone_number', phone_number, postgresql_using='gin'),
         db.Index('gin_email', email, postgresql_using='gin'),
+        db.Index('idx_country', country),
+        db.Index('idx_sector', sector),
     )
 
 class organizations(db.Model):

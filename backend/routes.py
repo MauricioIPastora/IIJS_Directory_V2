@@ -5,7 +5,7 @@ from sqlalchemy import or_
 field_keys = [
     "full_name", "email", "phone_number",
     "linkedin", "instagram", "organization",
-    "org_type", "twitter"
+    "org_type", "twitter", "country", "sector"
 ]
 
 def standardize_phone_number(phone):
@@ -75,7 +75,8 @@ def init_routes(app):
         return jsonify([{
             "id": c.id, "full_name": c.full_name, "phone_number": c.phone_number,
             "linkedin": c.linkedin, "instagram": c.instagram, "email": c.email,
-            "organization": c.organization, "org_type": c.org_type, "twitter": c.twitter
+            "organization": c.organization, "org_type": c.org_type, "twitter": c.twitter,
+            "country": c.country, "sector": c.sector
         } for c in contacts])
 
     @app.route("/search", methods=["GET"])
@@ -84,7 +85,7 @@ def init_routes(app):
         query = contact_list.query
         for field, value in query_params.items():
             if value:
-                if field in ["full_name", "email", "phone_number", "linkedin", "instagram", "email", "organization", "org_type", "twitter"]:
+                if field in ["full_name", "email", "phone_number", "linkedin", "instagram", "email", "organization", "org_type", "twitter", "country", "sector"]:
                     query = query.filter(getattr(contact_list, field).ilike(f"%{value}%"))
 
         kw = query_params.get("q")
@@ -101,7 +102,8 @@ def init_routes(app):
         return jsonify([{
             "id": c.id, "full_name": c.full_name, "phone_number": c.phone_number,
             "linkedin": c.linkedin, "instagram": c.instagram, "email": c.email,
-            "organization": c.organization, "org_type": c.org_type, "twitter": c.twitter
+            "organization": c.organization, "org_type": c.org_type, "twitter": c.twitter,
+            "country": c.country, "sector": c.sector
         } for c in results])
 
     @app.route("/delete/<int:id>", methods=["DELETE"])
@@ -120,25 +122,36 @@ def init_routes(app):
         if not contact:
             return jsonify({"error": "Contact not found!"}), 404
         
-        # Standardize phone number if provided in update data
+        # Update all fields
+        if "full_name" in data:
+            contact.full_name = data["full_name"]
         if "phone_number" in data:
             phones = data["phone_number"]
             if isinstance(phones, list):
                 standardized = [standardize_phone_number(p) for p in phones if standardize_phone_number(p)]
-                contact.phone_number = ", ".join(standardized)
+                contact.phone_number = standardized
             else:
-                contact.phone_number = standardize_phone_number(phones)
-
+                contact.phone_number = [standardize_phone_number(phones)] if standardize_phone_number(phones) else []
         if "email" in data:
             emails = data["email"]
             if isinstance(emails, list):
-                trimmed = [e.strip() for e in emails if e.strip()]
-                contact.email = ", ".join(trimmed)
+                contact.email = [e.strip() for e in emails if e.strip()]
             else:
-                contact.email = emails.strip()
-
-        data["phone_number"] = to_list(data.get("phone_number", []))
-        data["email"] = to_list(data.get("email", []))
+                contact.email = [emails.strip()] if emails.strip() else []
+        if "organization" in data:
+            contact.organization = data["organization"]
+        if "org_type" in data:
+            contact.org_type = data["org_type"]
+        if "linkedin" in data:
+            contact.linkedin = data["linkedin"]
+        if "instagram" in data:
+            contact.instagram = data["instagram"]
+        if "twitter" in data:
+            contact.twitter = data["twitter"]
+        if "country" in data:
+            contact.country = data["country"]
+        if "sector" in data:
+            contact.sector = data["sector"]
 
         db.session.commit()
         return jsonify({"message": "Contact updated successfully"})

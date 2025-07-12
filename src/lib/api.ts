@@ -82,7 +82,9 @@ export async function createContact(contact: Omit<Contact, "id">) {
     org_type: contact.organizationType,
     linkedin: contact.linkedin || '',
     instagram: contact.instagram || '',
-    twitter: contact.x || ''
+    twitter: contact.x || '',
+    country: contact.country || '',
+    sector: contact.sector || ''
   };
 
   const response = await fetch(`${API_BASE_URL}/insert`, {
@@ -106,7 +108,9 @@ export async function updateContact(id: string, contact: Omit<Contact, "id">) {
     org_type: contact.organizationType,
     linkedin: contact.linkedin || '',
     instagram: contact.instagram || '',
-    twitter: contact.x || ''
+    twitter: contact.x || '',
+    country: contact.country || '',
+    sector: contact.sector || ''
   };
 
   const response = await fetch(`${API_BASE_URL}/update/${id}`, {
