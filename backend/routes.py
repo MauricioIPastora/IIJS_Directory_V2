@@ -49,20 +49,21 @@ def init_routes(app):
             phones = data["phone_number"]
             if isinstance(phones, list):
                 standardized = [standardize_phone_number(p) for p in phones if standardize_phone_number(p)]
-                data["phone_number"] = ", ".join(standardized)
+                data["phone_number"] = standardized  # Keep as list
             else:
-                data["phone_number"] = standardize_phone_number(phones)
+                data["phone_number"] = [standardize_phone_number(phones)] if standardize_phone_number(phones) else []
 
         if "email" in data:
             emails = data["email"]
             if isinstance(emails, list):
                 trimmed = [e.strip() for e in emails if e.strip()]
-                data["email"] = ", ".join(trimmed)
+                data["email"] = trimmed  # Keep as list
             else:
-                data["email"] = emails.strip()
+                data["email"] = [emails.strip()] if emails.strip() else []
 
-        data["phone_number"] = to_list(data.get("phone_number", []))
-        data["email"] = to_list(data.get("email", []))
+        # Don't call to_list - data is already in correct format
+        # data["phone_number"] = to_list(data.get("phone_number", []))
+        # data["email"] = to_list(data.get("email", []))
 
         contact = contact_list(**data)
         db.session.add(contact)

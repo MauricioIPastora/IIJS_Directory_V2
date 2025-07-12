@@ -117,7 +117,7 @@ const sectors = sectorsData || [];
     
     // Handle PostgreSQL array format: {item1,item2,item3}
     if (val.startsWith('{') && val.endsWith('}')) {
-      return val.slice(1, -1).split(',').map((v) => v.trim()).filter(Boolean);
+      return val.slice(1, -1).split(', ').map((v) => v.trim()).filter(Boolean);
     }
     
     // Handle comma-separated string
