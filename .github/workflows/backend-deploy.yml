@@ -27,6 +27,8 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
           cd ~/IIJS_Directory_V2
+          # Tell Git to ignore changes to .env file (prevents it from being overwritten)
+          git update-index --assume-unchanged backend/.env
           git pull
           cd backend
           source venv/bin/activate
