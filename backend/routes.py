@@ -61,8 +61,9 @@ def init_routes(app):
             else:
                 data["email"] = emails.strip()
 
-        data["phone_number"] = to_list(data.get("phone_number", []))
-        data["email"] = to_list(data.get("email", []))
+        # Don't apply to_list here - the data is already in the correct format
+        # data["phone_number"] = to_list(data.get("phone_number", []))
+        # data["email"] = to_list(data.get("email", []))
 
         contact = contact_list(**data)
         db.session.add(contact)
