@@ -122,8 +122,8 @@ export function AddContactDialog({
 
     const submitData = {
       ...formData,
-      email: cleanedEmails.length <= 1 ? (cleanedEmails[0] || "") : cleanedEmails, // MODIFIED
-      phone: cleanedPhones.length <= 1 ? (cleanedPhones[0] || "") : cleanedPhones, // MODIFIED
+      email: cleanedEmails,
+      phone: cleanedPhones,
     };
 
     try {

@@ -44,26 +44,12 @@ def init_routes(app):
     def insert():
         data = request.json
 
-        # standardize phone number for consistent storage
-        if "phone_number" in data:
-            phones = data["phone_number"]
-            if isinstance(phones, list):
-                standardized = [standardize_phone_number(p) for p in phones if standardize_phone_number(p)]
-                data["phone_number"] = standardized  # Keep as list
-            else:
-                data["phone_number"] = [standardize_phone_number(phones)] if standardize_phone_number(phones) else []
-
-        if "email" in data:
-            emails = data["email"]
-            if isinstance(emails, list):
-                trimmed = [e.strip() for e in emails if e.strip()]
-                data["email"] = trimmed  # Keep as list
-            else:
-                data["email"] = [emails.strip()] if emails.strip() else []
-
-        # Don't call to_list - data is already in correct format
-        # data["phone_number"] = to_list(data.get("phone_number", []))
-        # data["email"] = to_list(data.get("email", []))
+        #Always convert to list of strings
+        data["phone_number"] = [
+            standardize_phone_number(p) for p in to_list(data.get("phone_number", []))
+            if standardize_phone_number(p)
+        ]
+        data["email"] = [e.strip() for e in to_list(data.get("email", [])) if e.strip()]
 
         contact = contact_list(**data)
         db.session.add(contact)
@@ -122,23 +108,16 @@ def init_routes(app):
         contact = contact_list.query.get(id)
         if not contact:
             return jsonify({"error": "Contact not found!"}), 404
-        
-        # Update all fields
+
         if "full_name" in data:
             contact.full_name = data["full_name"]
         if "phone_number" in data:
-            phones = data["phone_number"]
-            if isinstance(phones, list):
-                standardized = [standardize_phone_number(p) for p in phones if standardize_phone_number(p)]
-                contact.phone_number = standardized
-            else:
-                contact.phone_number = [standardize_phone_number(phones)] if standardize_phone_number(phones) else []
+            contact.phone_number = [
+                standardize_phone_number(p) for p in to_list(data["phone_number"])
+                if standardize_phone_number(p)
+            ]
         if "email" in data:
-            emails = data["email"]
-            if isinstance(emails, list):
-                contact.email = [e.strip() for e in emails if e.strip()]
-            else:
-                contact.email = [emails.strip()] if emails.strip() else []
+            contact.email = [e.strip() for e in to_list(data["email"]) if e.strip()]
         if "organization" in data:
             contact.organization = data["organization"]
         if "org_type" in data:
