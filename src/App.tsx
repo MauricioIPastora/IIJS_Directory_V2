@@ -239,6 +239,7 @@ export function App() {
           contacts={displayedContacts}
           organizations={organizations}
           organizationTypes={organizationTypes}
+          sectors={sectors}
         />
       </div>
       <AddContactDialog

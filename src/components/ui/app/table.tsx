@@ -3,7 +3,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from ".
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../dropdown-menu";
 import { Button } from "../button";
 import { Eye, Pencil, Trash2, MoreHorizontal } from "lucide-react";
-import type { Contact, Organization, OrganizationType } from "@/lib/types"; 
+import type { Contact, Organization, OrganizationType, Sector } from "@/lib/types"; 
 import { useContacts } from "@/lib/data";
 import { AddContactDialog } from "./add-contact";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "../alert-dialog";
@@ -98,12 +98,14 @@ interface ContactsTableProps {
   contacts: Contact[];
   organizations: Organization[];
   organizationTypes: OrganizationType[];
+  sectors: Sector[];
 }
 
 export function ContactsTable({ 
   contacts, 
   organizations, 
-  organizationTypes 
+  organizationTypes,
+  sectors 
 }: ContactsTableProps) {
   const { updateContact, deleteContact } = useContacts();
   const [isLoading, setIsLoading] = useState(false);
@@ -233,7 +235,7 @@ export function ContactsTable({
           onAddContact={(updatedContact) => updateContact(editContact.id, updatedContact)}
           initialData={editContact}
           isEditing={true}
-          sectors={[]}
+          sectors={sectors}
         />
       )}
 
