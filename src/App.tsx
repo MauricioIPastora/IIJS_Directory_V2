@@ -1,6 +1,6 @@
 import "./App.css";
 import { TableSearch } from "./components/ui/app/search";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { ContactsTable } from "./components/ui/app/table";
 import { AddContactDialog } from "./components/ui/app/add-contact";
 import { OrganizationManager } from "./components/ui/app/organization-manager";
@@ -18,9 +18,20 @@ export function App() {
   // Authentication hook
   const { isAuthenticated, signIn, signOut, isLoading: authLoading } = useAuth();
 
+  // Move these above useContacts
+  const [activeFilters, setActiveFilters] = useState<Record<string, string>>({});
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 20;
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeFilters, searchQuery]);
+
   // Use raw contacts from SWR
   const {
     contacts,
+    total,
     addContact,
     organizations,
     organizationTypes,
@@ -33,12 +44,12 @@ export function App() {
     removeSector,
     isLoading: dataLoading,
     error,
-  } = useContacts();
+  } = useContacts(activeFilters, currentPage, pageSize);
+
+  const totalPages = Math.ceil(total / pageSize);
 
   const [isAddContactOpen, setIsAddContactOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [activeFilters, setActiveFilters] = useState<Record<string, string>>({});
 
   // Login Handler Function
   const handleLogin = async (email: string, password: string) => {
@@ -240,6 +251,9 @@ export function App() {
           organizations={organizations}
           organizationTypes={organizationTypes}
           sectors={sectors}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
         />
       </div>
       <AddContactDialog

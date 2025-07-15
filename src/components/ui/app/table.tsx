@@ -99,13 +99,19 @@ interface ContactsTableProps {
   organizations: Organization[];
   organizationTypes: OrganizationType[];
   sectors: Sector[];
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
 }
 
 export function ContactsTable({ 
   contacts, 
   organizations, 
   organizationTypes,
-  sectors 
+  sectors,
+  currentPage,
+  totalPages,
+  onPageChange,
 }: ContactsTableProps) {
   const { updateContact, deleteContact } = useContacts();
   const [isLoading, setIsLoading] = useState(false);
@@ -261,6 +267,20 @@ export function ContactsTable({
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* Pagination controls */}
+      <div className="flex justify-center mt-4 gap-2 !p-1">
+        {Array.from({ length: totalPages }, (_, i) => (
+          <Button
+            key={i + 1}
+            variant={currentPage === i + 1 ? "default" : "outline"}
+            onClick={() => onPageChange(i + 1)}
+            className="w-8 h-8 p-0"
+          >
+            {i + 1}
+          </Button>
+        ))}
+      </div>
     </div>
   );
 }

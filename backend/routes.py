@@ -69,6 +69,9 @@ def init_routes(app):
     @app.route("/search", methods=["GET"])
     def search():
         query_params = request.args.to_dict()
+        page = int(query_params.pop("page", 1))
+        page_size = int(query_params.pop("pageSize", 20))
+
         query = contact_list.query
         for field, value in query_params.items():
             if value:
@@ -79,19 +82,26 @@ def init_routes(app):
         if kw:
             il = f"%{kw}%"
             query = query.filter(
-            or_(*[
-                getattr(contact_list, f).ilike(il)
-                for f in field_keys
-            ])
-        )
+                or_(*[
+                    getattr(contact_list, f).ilike(il)
+                    for f in field_keys
+                ])
+            )
 
-        results = query.all()
-        return jsonify([{
-            "id": c.id, "full_name": c.full_name, "phone_number": c.phone_number,
-            "linkedin": c.linkedin, "instagram": c.instagram, "email": c.email,
-            "organization": c.organization, "org_type": c.org_type, "twitter": c.twitter,
-            "country": c.country, "sector": c.sector
-        } for c in results])
+        total = query.count()  # Get total count before pagination
+
+        # Apply pagination
+        results = query.offset((page - 1) * page_size).limit(page_size).all()
+
+        return jsonify({
+            "results": [{
+                "id": c.id, "full_name": c.full_name, "phone_number": c.phone_number,
+                "linkedin": c.linkedin, "instagram": c.instagram, "email": c.email,
+                "organization": c.organization, "org_type": c.org_type, "twitter": c.twitter,
+                "country": c.country, "sector": c.sector
+            } for c in results],
+            "total": total
+        })
 
     @app.route("/delete/<int:id>", methods=["DELETE"])
     def delete(id):

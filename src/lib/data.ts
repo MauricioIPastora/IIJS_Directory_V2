@@ -40,17 +40,23 @@ const fetcher = async (url: string) => {
 };
 
 // Custom hook for managing contacts data with SWR
-export function useContacts(filters?: Record<string, string | undefined>) {
-  // Build query string from filters (including search query)
-  const queryString = filters
-    ? "?" + new URLSearchParams(
-        Object.entries(filters)
-          .filter(([_, v]) => v)
-          .map(([k, v]) => [k, v!])
-      ).toString()
-    : "";
+export function useContacts(
+  filters?: Record<string, string | undefined>,
+  page: number = 1,
+  pageSize: number = 20
+) {
+  // Build query string from filters and pagination
+  const params = new URLSearchParams();
+  if (filters) {
+    Object.entries(filters)
+      .filter(([_, v]) => v)
+      .forEach(([k, v]) => params.append(k, v!));
+  }
+  params.append("page", String(page));
+  params.append("pageSize", String(pageSize));
 
-  // ➕ STEP 2: Update SWR call to include dynamic endpoint
+  const queryString = "?" + params.toString();
+
   const {
     data: contactsData,
     error: contactsError,
@@ -79,7 +85,9 @@ export function useContacts(filters?: Record<string, string | undefined>) {
   } = useSWR(`${API_BASE_URL}/get_sectors`, fetcher);
 
 // Transform backend data format to match frontend expected format
-const contacts = contactsData ? transformContacts(contactsData) : [];
+// Now contactsData is { results: [...], total: N }
+const contacts = contactsData ? transformContacts(contactsData.results) : [];
+const total = contactsData ? contactsData.total : 0;
 const organizations = orgsData || [];
 const organizationTypes = typesData || [];
 const sectors = sectorsData || [];
@@ -128,8 +136,8 @@ const sectors = sectorsData || [];
   const addContact = async (contact: Omit<Contact, "id">) => {
     try {
       await api.createContact(contact);
-      // Revalidate the contacts cache
-      mutate(`${API_BASE_URL}/search`);
+      // Revalidate all /search keys
+      mutate((key) => typeof key === "string" && key.startsWith(`${API_BASE_URL}/search`));
       return true;
     } catch (error) {
       console.error("Failed to add contact:", error);
@@ -144,8 +152,8 @@ const sectors = sectorsData || [];
   ) => {
     try {
       await api.updateContact(id, updatedContact);
-      // Revalidate the contacts cache
-      mutate(`${API_BASE_URL}/search`);
+      // Revalidate all /search keys
+      mutate((key) => typeof key === "string" && key.startsWith(`${API_BASE_URL}/search`));
       return true;
     } catch (error) {
       console.error("Failed to update contact:", error);
@@ -157,8 +165,8 @@ const sectors = sectorsData || [];
   const deleteContact = async (id: string) => {
     try {
       await api.deleteContact(id);
-      // Revalidate the contacts cache
-      mutate(`${API_BASE_URL}/search`);
+      // Revalidate all /search keys
+      mutate((key) => typeof key === "string" && key.startsWith(`${API_BASE_URL}/search`));
       return true;
     } catch (error) {
       console.error("Failed to delete contact:", error);
@@ -229,6 +237,7 @@ const sectors = sectorsData || [];
 
   return {
     contacts,
+    total,
     filteredContacts,
     setFilteredContacts,
     organizations,
